@@ -1,6 +1,5 @@
 ﻿@model List<Listing>
 
-
 @{
 
     ViewData["Title"] = "Listings";
@@ -11,7 +10,8 @@
 
 <h2>Listings</h2>
 
-@if (Model.Any()) {
+@if (Model.Any())
+{
     <table class="table">
 
 
@@ -20,14 +20,14 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Price</th>
             </tr>
         </thead>
 
 
-        @foreach (var listing in Model) {
-            <tbody>
-                <tr>
+        @foreach(var listing in Model)
+        {
+             <tbody>
+                  <tr>
                     <td>@listing.ListingId</td>
                     <td>@listing.Name</td>
                     <td>@listing.Description</td>
@@ -36,13 +36,18 @@
                         <a asp-action="Edit" asp-route-id="@listing.ListingId">Edit</a>
                         <a asp-action="Delete" asp-route-id="@listing.ListingId" onclick="return confirm('Are you sure you want to delete this project?')">Delete</a>
                     </td>
-                </tr>
+                  </tr>
             </tbody>
         }
 
     </table>
-} else {
-    <p>No projects available</p>
+}
+else 
+{
+    <p>No listings available</p>
 }
 
-<a asp-area="" asp-controller="Listing" asp-action="Create">Create New Listing</a>
+ <a asp-area="" asp-controller="Listing" asp-action="Create">Create New Listing</a>
+
+
+

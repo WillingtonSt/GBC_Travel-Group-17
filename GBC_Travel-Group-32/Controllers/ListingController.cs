@@ -2,6 +2,7 @@
 using GBC_Travel_Group_32.Models;
 using GBC_Travel_Group_32.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
 
 namespace GBC_Travel_Group_32.Controllers {
     public class ListingController : Controller {
@@ -12,7 +13,10 @@ namespace GBC_Travel_Group_32.Controllers {
             _context = context;
         }
 
+        
 
+
+      
         [HttpGet]
         public IActionResult Index() {
 
@@ -43,17 +47,18 @@ namespace GBC_Travel_Group_32.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Listing listing) {
+        public IActionResult CreateFlight(Flight flight) {
 
             if(ModelState.IsValid) {
-                _context.Listings.Add(listing);
+                _context.Listings.Add(flight);
+                _context.Flights.Add(flight);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
 
 
 
-            return View(listing);
+            return View(flight);
         }
 
 
@@ -114,8 +119,8 @@ namespace GBC_Travel_Group_32.Controllers {
         }
 
 
-
-
+        
+        
 
     }
 }

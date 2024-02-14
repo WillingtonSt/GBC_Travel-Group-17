@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GBC_Travel-Group-32")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c4738072550070567880c824308d6056a475d03")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+949e90a1012e1deac7bcd53b1533ca8db2fd0c7c")]
 [assembly: System.Reflection.AssemblyProductAttribute("GBC_Travel-Group-32")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GBC_Travel-Group-32")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
