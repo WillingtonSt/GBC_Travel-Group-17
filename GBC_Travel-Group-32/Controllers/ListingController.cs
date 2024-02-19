@@ -194,28 +194,94 @@ namespace GBC_Travel_Group_32.Controllers {
         [HttpGet]
         public IActionResult Edit(int id) {
 
-            var listing = _context.Listings.Find(id);
+            if (_context.Flights.Find(id) != null) {
 
-            if(listing == null) {
+                var flight = (from listing in _context.Listings
+                              join f in _context.Flights on listing.ListingId equals f.ListingId
+                              where f.ListingId == id
+                              select f).FirstOrDefault();
+                return View("EditFlight", flight);
+
+            } else if (_context.Hotels.Find(id) != null) {
+
+                var hotel = (from listing in _context.Listings
+                             join h in _context.Hotels on listing.ListingId equals h.ListingId
+                             where h.ListingId == id
+                             select h).FirstOrDefault();
+                return View("EditHotel", hotel);
+
+            } else if (_context.CarRentals.Find(id) != null) {
+
+                var car = (from listing in _context.Listings
+                           join c in _context.CarRentals on listing.ListingId equals c.ListingId
+                           where c.ListingId == id
+                           select c).FirstOrDefault();
+                return View("EditCarRental", car);
+
+            } else {
                 return NotFound();
             }
+        }
 
-            return View(listing);
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditFlight(Flight flight) {
+
+           
+            if (!ModelState.IsValid) {
+               
+                return View(flight);
+
+            }
+          
+            _context.Listings.Update(flight);
+            _context.Flights.Update(flight);
+            _context.SaveChanges();
+            return View(nameof(Details), flight);
+           
+
+        }
+
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditHotel(Hotel hotel) {
+
+
+            if (ModelState.IsValid) {
+
+                _context.Listings.Update(hotel);
+                _context.Hotels.Update(hotel);
+                _context.SaveChanges();
+                return View(nameof(Details), hotel);
+
+            }
+            return View(hotel);
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Listing listing) {
+        public IActionResult EditCarRental(CarRental car) {
+
+           
 
             if (ModelState.IsValid) {
-                _context.Entry(listing).State = EntityState.Modified;
+
+                _context.Listings.Update(car);
+                _context.CarRentals.Update(car);
                 _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                return View(nameof(Details), car);
+
             }
+            return View(car);
 
-
-            return View(listing);
         }
+
+
 
 
         [HttpGet]

@@ -1,0 +1,66 @@
+﻿@model Hotel
+
+@{
+    ViewData["Title"] = "Edit Hotel Listing";
+}
+
+
+<h2>Edit Hotel Listing</h2>
+
+<form asp-action="EditHotel" method="post">
+    @Html.AntiForgeryToken()
+   
+
+    <input type="hidden" asp-for="ListingId" />
+    <input type="hidden" asp-for="UserId" />
+    <input type="hidden" asp-for="Available" />
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+        <div>
+            <label asp-for="StartPeriod" class="control-label">Start Period</label>
+            <input asp-for="StartPeriod" class="form-control" type="date" />
+        </div>
+
+        <div>
+            <label asp-for="EndPeriod" class="control-label">End Period</label>
+            <input asp-for="EndPeriod" class="form-control" type="date" />
+        </div>
+
+        <div>
+            <label asp-for="Rooms" class="control-label">Number of Rooms</label>
+            <input asp-for="Rooms" class="form-control" type="number" />
+        </div>
+
+    
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+
+
+</form>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
