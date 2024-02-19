@@ -22,19 +22,33 @@ namespace GBC_Travel_Group_32.Controllers {
 
 
         [HttpPost]
-        public async Task<IActionResult> Login(User user) {
+        public async Task<IActionResult> Login(LoginViewModel login) {
 
             if (ModelState.IsValid) {
 
-                var result = await _signInManager.PasswordSignInAsync(user.UserName, user.Password, true, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(login.UserName, login.Password, true, lockoutOnFailure: false);
                 if (result.Succeeded) {
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError(string.Empty, "Invalid login attempt");
             }
-            return View(user);
+            return View(login);
         }
 
+
+        [HttpGet]
+        public IActionResult LogOutPage() {
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout() {
+
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login");
+        }
 
         [HttpGet]
         public IActionResult Register() {

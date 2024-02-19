@@ -1,0 +1,56 @@
+﻿@model Listing
+
+@{
+    ViewData["Title"] = "Listing Details";
+}
+
+<h2>Listing Details</h2>
+
+<div class="card">
+
+    <div class="card-body">
+        <h3 class="card-title">@Model.Name</h3>
+        <p class="card-text">@Model.Description</p>
+
+        <dl>
+            <dt class="col-sm-3">Price</dt>
+            <dd class="col-sm-9">@Model.Price</dd>
+
+
+            <dt class="col-sm-3">Status</dt>
+            @if(Model.Available) {
+                <dd class="col-sm-9">Available</dd>
+            } else {
+                <dd class="col-sm-9">Unavailable</dd>
+            }
+        
+
+        @if(Model is Flight flight) {
+                
+            <dt class="col-sm-3">Flight Date</dt>
+            <dd class="col-sm-9">@flight.FlightDate</dd>
+
+            <dd class="col-sm-9">Maximum Passengers: @flight.MaxPassengers</dd>
+
+            <dt class="col-sm-3">Flying From</dt>
+            <dd class="col-sm-9">@flight.Location</dd>
+
+            <dt class="col-sm-3">Destination</dt>
+                <dd class="col-sm-9">@flight.Destination</dd>
+            } else if(Model is Hotel hotel) {
+                
+            <dt class="col-sm-3">Availability Period</dt>
+            <dd class="col-sm-9">@hotel.StartPeriod</dd>
+            <p>to</p>
+            <dd class="col-sm-9">@hotel.EndPeriod</dd>
+
+            <dd class="col-sm-3">Rooms: @hotel.Rooms</dd>
+            }
+
+
+        </dl>
+
+        
+        <a asp-controller="Listing" asp-action="Index" class="btn btn-secondary">All Listings</a>
+
+    </div>

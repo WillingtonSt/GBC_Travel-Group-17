@@ -1,4 +1,7 @@
-﻿@model Listing
+﻿
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+@model Listing
 
 
 @{
@@ -7,17 +10,34 @@
 
 <h2>Create Listing</h2>
 
-<form id="createListingForm" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+
+@{
+    var userId = UserManager.GetUserId(User);
+
+
+}
+
+
+<form asp-controller="Listing" id="createListingForm" method="post" asp-action="Create">
+    <div  class="text-danger"></div>
 
     <div class="form-group">
         <label for="listingType">Listing Type</label>
         <select class="form-control" id="listingType">
-            <option value="Flight">Flight</option>
+            <option value="Flight" selected>Flight</option>
             <option value="Hotel">Hotel</option>
             <option value="CarRental">Car Rental</option>
         </select>
     </div>
+   <input type="hidden" name="listingType" id="listingTypeHidden" value="" />
+
+    
+
+    <input type="hidden" asp-for="@Model.UserId" value="@userId" />
+
+    
 
     <div>
         <label asp-for="Name" class="control-label"></label>
@@ -37,34 +57,60 @@
         <span asp-validation-for="Price" class="text-danger"></span>
     </div>
 
-    <div>
-        <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
-
   
-    <div id="flightFields" style="display: none;">
-       
+    <div id="flightFields">
+
       
-        
+
+            <div>
+                <label for="FlightDate" class="control-label">Flight Date</label>
+                <input name="flightDate" id="FlightDate" class="form-control" type="datetime-local"/>
+            </div>
+
+            <div>
+                <label for="MaxPassengers" class="control-label">Maximum Passengers</label>
+                <input name="maxPassengers" id="MaxPassengers" class="form-control" type="number" />
+            </div>
+
+             <div>
+                <label for="Location" class="control-label">Departure</label>
+                <input name="location" id="Location" class="form-control" />
+            </div>
+
+            <div>
+                <label for="Destination" class="control-label">Destination</label>
+                <input name="destination" id="Destination" class="form-control" />
+            </div>
+
        
     </div>
 
     <div id="hotelFields" style="display: none;">
-       
-        
+
+        <div>
+            <label for="StartPeriod" class="control-label">Start Period</label>
+            <input name="startPeriod" id="StartPeriod" class="form-control" type="date" />
+        </div>
+
+        <div>
+            <label for="EndPeriod" class="control-label">End Period</label>
+            <input name="endPeriod" id="EndPeriod" class="form-control" type="date" />
+        </div>
+
+        <div>
+            <label for="Rooms" class="control-label">Number of Rooms</label>
+            <input name="rooms" id="Rooms" class="form-control" type="number" />
+        </div>
+
       
     </div>
 
-    <div id="carRentalFields" style="display: none;">
-  
-        <input type="hidden" id="listingId" name="ListingId" value="@Model.ListingId" />
-       
-    </div>
+    
 
+
+  
     <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <input type="submit" value="Create Listing" class="btn btn-primary" id="flightSubmit"/>
         <a asp-action="Index" class="btn btn-warning">Cancel</a>
     </div>
 </form>
@@ -72,18 +118,21 @@
 @section Scripts {
     <script>
         $(function () {
+        
             $('#listingType').change(function () {
                 var selectedType = $(this).val();
                 $('#flightFields').hide();
                 $('#hotelFields').hide();
-                $('#carRentalFields').hide();
+                $('#listingTypeHidden').val(selectedType);
+                 
 
                 if (selectedType === 'Flight') {
                     $('#flightFields').show();
+
                 } else if (selectedType === 'Hotel') {
                     $('#hotelFields').show();
-                } else if (selectedType === 'CarRental') {
-                    $('#carRentalFields').show();
+
+
                 }
             });
         });

@@ -1,0 +1,12 @@
+﻿@{
+
+
+}
+
+<h2>Logout</h2>
+
+<p>You are currently logged in as @User.Identity.Name</p>
+
+<form id="logoutForm" asp-action="Logout" asp-controller="User" method="post">
+    <button type="submit">Logout</button>
+</form>

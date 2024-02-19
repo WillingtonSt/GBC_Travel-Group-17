@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
 
 namespace GBC_Travel_Group_32.Models {
     public class Listing {
@@ -18,7 +19,7 @@ namespace GBC_Travel_Group_32.Models {
         public string? ImageUrl { get; set; }
 
         [Required]
-        public int UserId {  get; set; }
+        public string? UserId {  get; set; }
 
         public bool Available { get; set; }
         
