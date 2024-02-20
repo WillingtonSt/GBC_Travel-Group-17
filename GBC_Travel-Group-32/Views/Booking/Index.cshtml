@@ -1,0 +1,50 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+@model IEnumerable<Booking> 
+
+@{
+    ViewData["Title"] = "Bookings";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+
+<table class="table">
+
+
+
+
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Booking Date</th>
+            <th>Booking EndDate</th>
+            
+        </tr>
+    </thead>
+
+
+    @foreach (var booking in Model) {
+
+        
+            var user = await UserManager.FindByIdAsync(booking.UserId);
+            string userName = user != null ? await UserManager.GetUserNameAsync(user) : "Guest";
+
+        <tbody>
+            <tr>
+               
+                <td>@userName</td>
+                <td>@booking.Email</td>
+                <td>@booking.BookingDate</td>
+                <td>@booking.BookingEndDate</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@booking.BookingId">Details</a>
+                </td>
+            </tr>
+        </tbody>
+    }
+</table>
+
+
+<a asp-controller="Listing" asp-action="Index" class="btn btn-secondary">Back to Listings</a>

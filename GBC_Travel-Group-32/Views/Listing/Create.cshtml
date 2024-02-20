@@ -31,7 +31,7 @@
             <option value="CarRental">Car Rental</option>
         </select>
     </div>
-   <input type="hidden" name="listingType" id="listingTypeHidden" value="" />
+   <input type="hidden" name="listingType" id="listingTypeHidden" value="Flight" />
 
     
 
@@ -89,12 +89,12 @@
 
         <div>
             <label for="StartPeriod" class="control-label">Start Period</label>
-            <input name="startPeriod" id="StartPeriod" class="form-control" type="date" />
+            <input name="startPeriod" id="StartPeriod" class="form-control" type="datetime-local" />
         </div>
 
         <div>
             <label for="EndPeriod" class="control-label">End Period</label>
-            <input name="endPeriod" id="EndPeriod" class="form-control" type="date" />
+            <input name="endPeriod" id="EndPeriod" class="form-control" type="datetime-local" />
         </div>
 
         <div>
@@ -103,6 +103,20 @@
         </div>
 
       
+    </div>
+
+    <div id="carFields" style="display: none;">
+
+        <div>
+            <label for="Manufacturer" class="control-label">Manufacturer</label>
+            <input name="manufacturer" id="Manufacturer" class="form-control" />
+        </div>
+
+        <div>
+            <label for="Model" class="control-label">Model</label>
+            <input name="model" id="Model" class="form-control" />
+        </div>
+
     </div>
 
     
@@ -123,16 +137,22 @@
                 var selectedType = $(this).val();
                 $('#flightFields').hide();
                 $('#hotelFields').hide();
+                $('#carFields').hide();
                 $('#listingTypeHidden').val(selectedType);
                  
+               
 
                 if (selectedType === 'Flight') {
                     $('#flightFields').show();
-
+                    
                 } else if (selectedType === 'Hotel') {
                     $('#hotelFields').show();
-
-
+                  
+                } else if (selectedType === 'CarRental') {
+                    $('#carFields').show();
+                   
+                    
+                    
                 }
             });
         });

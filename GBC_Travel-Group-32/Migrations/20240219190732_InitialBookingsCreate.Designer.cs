@@ -4,6 +4,7 @@ using GBC_Travel_Group_32.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GBC_Travel_Group_32.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240219190732_InitialBookingsCreate")]
+    partial class InitialBookingsCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,12 +47,10 @@ namespace GBC_Travel_Group_32.Migrations
                     b.Property<int>("ListingId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("BookingId");
-
-                    b.HasIndex("ListingId");
 
                     b.ToTable("Bookings", (string)null);
                 });
@@ -336,17 +337,6 @@ namespace GBC_Travel_Group_32.Migrations
                         .HasColumnType("datetime2");
 
                     b.ToTable("Hotels", (string)null);
-                });
-
-            modelBuilder.Entity("GBC_Travel_Group_32.Models.Booking", b =>
-                {
-                    b.HasOne("GBC_Travel_Group_32.Models.Listing", "listing")
-                        .WithMany()
-                        .HasForeignKey("ListingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("listing");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

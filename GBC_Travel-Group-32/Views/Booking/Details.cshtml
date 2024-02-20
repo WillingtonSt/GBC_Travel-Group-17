@@ -1,0 +1,95 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+@model Booking
+@{
+    ViewData["Title"] = "Booking Details";
+
+   
+    var user = await UserManager.FindByIdAsync(Model.UserId);
+    string userName = user != null ? await UserManager.GetUserNameAsync(user) : "Guest";
+
+    
+
+}
+
+<h2>Booking Details</h2>
+<hr />
+
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">User: </dt>
+        <dd class="col-sm-10">@userName</dd>
+
+        <dt class="col-sm-2">Email</dt>
+        <dd class="col-sm-10">@Model.Email</dd>
+
+        <dt class="col-sm-2">Booking Date</dt>
+        <dd class="col-sm-10">@Model.BookingDate</dd>
+
+        <dt class="col-sm-2">Booking End Date</dt>
+
+        @if(Model.BookingEndDate == DateTime.MinValue) {
+            <dd class="col-sm-10">N/A</dd>
+        } else {
+            <dd class="col-sm-10">@Model.BookingEndDate</dd>
+        }
+       
+    </dl>
+</div>
+
+<h3>For Listing:</h3>
+
+<div class="card">
+
+    <div class="card-body">
+        <h3 class="card-title">@Model.listing.Name</h3>
+        <p class="card-text">@Model.listing.Description</p>
+
+        <dl>
+            <dt class="col-sm-3">Price</dt>
+            <dd class="col-sm-9">@Model.listing.Price</dd>
+
+
+            <dt class="col-sm-3">Status</dt>
+            @if (Model.listing.Available) {
+                <dd class="col-sm-9">Available</dd>
+            } else {
+                <dd class="col-sm-9">Unavailable</dd>
+            }
+
+
+            @if (Model.listing is Flight flight) {
+
+                <dt class="col-sm-3">Flight Date</dt>
+                <dd class="col-sm-9">@flight.FlightDate</dd>
+
+                <dd class="col-sm-9">Maximum Passengers: @flight.MaxPassengers</dd>
+
+                <dt class="col-sm-3">Flying From</dt>
+                <dd class="col-sm-9">@flight.Location</dd>
+
+                <dt class="col-sm-3">Destination</dt>
+                <dd class="col-sm-9">@flight.Destination</dd>
+            } else if (Model.listing is Hotel hotel) {
+
+                <dt class="col-sm-3">Availability Period</dt>
+                <dd class="col-sm-9">@hotel.StartPeriod</dd>
+                <p>to</p>
+                <dd class="col-sm-9">@hotel.EndPeriod</dd>
+
+                <dd class="col-sm-3">Rooms: @hotel.Rooms</dd>
+            }
+
+            @if (Model.listing is CarRental car) {
+
+                <dt class="col-sm-3">Manufacturer</dt>
+                <dd class="col-sm-9">@car.Manufacturer</dd>
+
+                <dt class="col-sm-3">Model</dt>
+                <dd class="col-sm-9">@car.Model</dd>
+            }
+
+
+        </dl>
+    </div>

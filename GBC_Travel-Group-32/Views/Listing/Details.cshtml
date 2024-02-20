@@ -47,10 +47,19 @@
             <dd class="col-sm-3">Rooms: @hotel.Rooms</dd>
             }
 
+        @if(Model is CarRental car) {
+                
+                <dt class="col-sm-3">Manufacturer</dt>
+                <dd class="col-sm-9">@car.Manufacturer</dd>
+         
+                <dt class="col-sm-3">Model</dt>
+                <dd class="col-sm-9">@car.Model</dd>
+            }
+
 
         </dl>
 
-        
+        <a asp-controller="Booking" asp-action="Create" asp-route-listingId="@Model.ListingId" class="btn btn-primary">Create Booking</a>
         <a asp-controller="Listing" asp-action="Index" class="btn btn-secondary">All Listings</a>
 
     </div>

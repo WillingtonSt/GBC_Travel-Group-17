@@ -67,6 +67,12 @@ namespace GBC_Travel_Group_32.Models {
 
     public class CarRental : Listing {
 
+        [Required]
+        public string? Manufacturer { get; set; }
+
+        [Required]
+        public string? Model { get; set; }
+
       
     }
 }

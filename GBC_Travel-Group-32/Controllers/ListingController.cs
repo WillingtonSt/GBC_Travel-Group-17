@@ -68,8 +68,14 @@ namespace GBC_Travel_Group_32.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Listing listing, string listingType, DateTime flightDate, int maxPassengers, string location, string destination, DateTime startPeriod, DateTime endPeriod, int rooms) {
+        public IActionResult Create(Listing listing, string listingType, DateTime flightDate, int maxPassengers, string location, string destination, DateTime startPeriod, DateTime endPeriod, int rooms, string manufacturer, string model) {
+
+
+            
+
             if (listingType == "Flight") {
+
+                
 
                 return CreateFlight(listing, flightDate, maxPassengers, location, destination);
             } else if (listingType == "Hotel") {
@@ -77,7 +83,7 @@ namespace GBC_Travel_Group_32.Controllers {
                 return CreateHotel(listing,startPeriod,endPeriod, rooms);
             } else if (listingType == "CarRental") {
 
-                return CreateCarRental(listing);
+                return CreateCarRental(listing, manufacturer, model);
             }
 
             return View(nameof(Create));
@@ -102,6 +108,7 @@ namespace GBC_Travel_Group_32.Controllers {
                 MaxPassengers = maxPassengers,
                 Location = location,
                 Destination = destination
+
 
             };
 
@@ -160,7 +167,7 @@ namespace GBC_Travel_Group_32.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateCarRental(Listing listing) {
+        public IActionResult CreateCarRental(Listing listing, string manufacturer, string model) {
 
             var carRental = new CarRental {
 
@@ -170,7 +177,8 @@ namespace GBC_Travel_Group_32.Controllers {
                 ImageUrl = listing.ImageUrl,
                 UserId = listing.UserId,
                 Available = true,
-                
+                Manufacturer = manufacturer,
+                Model = model
 
             };
 

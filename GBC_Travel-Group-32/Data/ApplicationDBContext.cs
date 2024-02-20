@@ -22,6 +22,8 @@ namespace GBC_Travel_Group_32.Data {
 
         public DbSet<CarRental> CarRentals { get; set;}
 
+        public DbSet<Booking> Bookings { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
@@ -33,6 +35,8 @@ namespace GBC_Travel_Group_32.Data {
             modelBuilder.Entity<Flight>().ToTable("Flights");
             modelBuilder.Entity<Hotel>().ToTable("Hotels");
             modelBuilder.Entity<CarRental>().ToTable("CarRentals");
+
+            modelBuilder.Entity<Booking>().ToTable("Bookings");
         }
 
     }
