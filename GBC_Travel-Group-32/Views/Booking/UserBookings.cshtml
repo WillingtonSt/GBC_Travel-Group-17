@@ -1,0 +1,50 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+@model IEnumerable<Booking>
+
+@{
+    ViewData["Title"] = "User Bookings";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+
+<table class="table">
+
+
+    <thead>
+        <tr>
+            <th>Listing Name</th>
+            <th>Booking Start Date</th>
+            <th>Booking End Date</th>
+
+        </tr>
+    </thead>
+
+
+    @foreach (var booking in Model) {
+
+
+        
+
+        <tbody>
+            <tr>
+
+                <td>@booking.listing.Name</td>
+                <td>@booking.BookingDate</td>
+                @if (booking.BookingEndDate == DateTime.MinValue) {
+                 <td>N/A</td>
+                } else {
+                 <td>@booking.BookingEndDate</td>
+                }
+                <td>
+                    <a asp-action="Details" asp-route-id="@booking.BookingId">Details</a>
+                    <a asp-action="Delete" asp-route-id="@booking.BookingId">Cancel Booking</a>
+                </td>
+            </tr>
+        </tbody>
+    }
+</table>
+
+
+<a asp-controller="Listing" asp-action="Index" class="btn btn-secondary">Listings</a>

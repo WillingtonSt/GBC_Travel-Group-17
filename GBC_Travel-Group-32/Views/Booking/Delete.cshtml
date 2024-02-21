@@ -1,0 +1,72 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+@model Booking
+
+@{
+    ViewData["Title"] = "Cancel Booking";
+
+    var userId = UserManager.GetUserId(User);
+
+}
+
+
+<h2>Delete Project</h2>
+
+
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <h3>Not Logged in.</h3>
+
+
+
+    <p>You must be logged in to cancel a booking.</p>
+
+    <a asp-controller="User" asp-action="Login">Log in here</a>
+}
+
+
+
+else if (User.Identity.IsAuthenticated && UserManager.GetUserId(User) == Model.UserId)
+{
+
+
+    var user = await UserManager.FindByIdAsync(Model.UserId);
+
+    <h3>Are you sure you want to cancel this booking?</h3>
+    <div>
+        <dl class="row">
+            <dt class="col-sm-2">User: </dt>
+            <dd class="col-sm-10">@user.UserName</dd>
+
+            <dt class="col-sm-2">Email</dt>
+            <dd class="col-sm-10">@Model.Email</dd>
+
+            <dt class="col-sm-2">Booking Date</dt>
+            <dd class="col-sm-10">@Model.BookingDate</dd>
+
+            <dt class="col-sm-2">Booking End Date</dt>
+
+            @if (Model.BookingEndDate == DateTime.MinValue) {
+                <dd class="col-sm-10">N/A</dd>
+            } else {
+                <dd class="col-sm-10">@Model.BookingEndDate</dd>
+            }
+
+        </dl>
+    </div>
+
+    <form asp-controller="Booking" asp-action="DeleteConfirmed" method="post">
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="bookingId" value="@Model.BookingId" />
+        <button type="submit" class="btn btn-danger">Cancel Booking</button>
+        <a asp-action="UserBooking" asp-route-userId="@Model.UserId" class="btn btn-secondary">Go Back</a>
+    </form>
+} else {
+    
+    <h3>No Booking Found</h3>
+
+
+
+}

@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -32,7 +34,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="LogoutPage">Logout</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Booking" asp-action="Index">My Bookings</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Booking" asp-action="UserBookings" asp-route-userId="@UserManager.GetUserId(User)">My Bookings</a>
                             </li>
                         } else {
                         <li class="nav-item">

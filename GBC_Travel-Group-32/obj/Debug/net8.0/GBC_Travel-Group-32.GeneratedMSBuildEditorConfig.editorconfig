@@ -22,12 +22,20 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/joeba/source/repos/WillingtonSt/GBC_Travel-Group-32/GBC_Travel-Group-32/Views/Booking/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/joeba/source/repos/WillingtonSt/GBC_Travel-Group-32/GBC_Travel-Group-32/Views/Booking/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/joeba/source/repos/WillingtonSt/GBC_Travel-Group-32/GBC_Travel-Group-32/Views/Booking/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joeba/source/repos/WillingtonSt/GBC_Travel-Group-32/GBC_Travel-Group-32/Views/Booking/UserBookings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xVc2VyQm9va2luZ3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/joeba/source/repos/WillingtonSt/GBC_Travel-Group-32/GBC_Travel-Group-32/Views/Home/Index.cshtml]
