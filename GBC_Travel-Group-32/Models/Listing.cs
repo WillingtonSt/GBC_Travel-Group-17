@@ -13,7 +13,8 @@ namespace GBC_Travel_Group_32.Models {
         [Required]
         public string? Description { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Price is required")]
+        [Range(0, float.MaxValue, ErrorMessage = "Price cannot be negative")]
         public float Price { get; set; }
 
         public string? ImageUrl { get; set; }
@@ -35,6 +36,7 @@ namespace GBC_Travel_Group_32.Models {
         public DateTime FlightDate { get; set; }
 
         [Required]
+        [Range(1, double.MaxValue, ErrorMessage = "Passenger Maximum must be at least 1")]
         public int MaxPassengers { get; set; }
 
         [Required]
@@ -59,6 +61,8 @@ namespace GBC_Travel_Group_32.Models {
         [Required]
         public DateTime EndPeriod { get; set; }
 
+        [Required]
+        [Range(1, double.MaxValue, ErrorMessage ="Rooms cannot be less than 0")]
         public int Rooms {  get; set; }
 
      

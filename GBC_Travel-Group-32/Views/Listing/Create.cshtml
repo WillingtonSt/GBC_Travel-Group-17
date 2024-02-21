@@ -16,6 +16,10 @@
 @{
     var userId = UserManager.GetUserId(User);
 
+    
+    DateTime date = new DateTime();
+        
+
 
 }
 
@@ -41,19 +45,19 @@
 
     <div>
         <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" />
+        <input asp-for="Name" class="form-control" required />
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
     <div>
         <label asp-for="Description" class="control-label"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
+        <textarea asp-for="Description" class="form-control" required></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
     <div>
         <label asp-for="Price" class="control-label"></label>
-        <input asp-for="Price" class="form-control" />
+        <input asp-for="Price" class="form-control" type="number" required min="0" />
         <span asp-validation-for="Price" class="text-danger"></span>
     </div>
 
@@ -64,22 +68,26 @@
 
             <div>
                 <label for="FlightDate" class="control-label">Flight Date</label>
-                <input name="flightDate" id="FlightDate" class="form-control" type="datetime-local"/>
+            <input name="flightDate" id="FlightDate" class="form-control" type="datetime-local" min="@date" />
+                <div id="flightDateValidationMessage" class="text-danger"></div>
             </div>
 
             <div>
                 <label for="MaxPassengers" class="control-label">Maximum Passengers</label>
-                <input name="maxPassengers" id="MaxPassengers" class="form-control" type="number" />
+            <input name="maxPassengers" id="MaxPassengers" class="form-control" type="number" min="1" />
+                <div id="maxPassengersValidationMessage" class="text-danger"></div>
             </div>
 
              <div>
                 <label for="Location" class="control-label">Departure</label>
                 <input name="location" id="Location" class="form-control" />
+                <div id="locationValidationMessage" class="text-danger"></div>
             </div>
 
             <div>
                 <label for="Destination" class="control-label">Destination</label>
-                <input name="destination" id="Destination" class="form-control" />
+            <input name="destination" id="Destination" class="form-control" />
+            <div id="destinationValidationMessage" class="text-danger"></div>
             </div>
 
        
@@ -87,19 +95,24 @@
 
     <div id="hotelFields" style="display: none;">
 
+       
+
         <div>
             <label for="StartPeriod" class="control-label">Start Period</label>
-            <input name="startPeriod" id="StartPeriod" class="form-control" type="datetime-local" />
+            <input name="startPeriod" id="StartPeriod" class="form-control" type="datetime-local" min="@date"/>
+            <div id="startDateValidationMessage" class="text-danger"></div>
         </div>
 
         <div>
             <label for="EndPeriod" class="control-label">End Period</label>
             <input name="endPeriod" id="EndPeriod" class="form-control" type="datetime-local" />
+            <div id="endDateValidationMessage" class="text-danger"></div>
         </div>
 
         <div>
             <label for="Rooms" class="control-label">Number of Rooms</label>
-            <input name="rooms" id="Rooms" class="form-control" type="number" />
+            <input name="rooms" id="Rooms" class="form-control" type="number" min="1"/>
+            <div id="roomsValidationMessage" class="text-danger"></div>
         </div>
 
       
@@ -110,11 +123,13 @@
         <div>
             <label for="Manufacturer" class="control-label">Manufacturer</label>
             <input name="manufacturer" id="Manufacturer" class="form-control" />
+            <div id="manufacturerValidationMessage" class="text-danger"></div>
         </div>
 
         <div>
             <label for="Model" class="control-label">Model</label>
             <input name="model" id="Model" class="form-control" />
+            <div id="modelValidationMessage" class="text-danger"></div>
         </div>
 
     </div>
@@ -131,29 +146,124 @@
 
 @section Scripts {
     <script>
+
         $(function () {
-        
             $('#listingType').change(function () {
                 var selectedType = $(this).val();
-                $('#flightFields').hide();
-                $('#hotelFields').hide();
-                $('#carFields').hide();
+                $('#flightFields, #hotelFields, #carFields').hide();
                 $('#listingTypeHidden').val(selectedType);
-                 
-               
 
                 if (selectedType === 'Flight') {
                     $('#flightFields').show();
-                    
                 } else if (selectedType === 'Hotel') {
                     $('#hotelFields').show();
-                  
                 } else if (selectedType === 'CarRental') {
                     $('#carFields').show();
-                   
-                    
-                    
                 }
+            });
+
+            $('#createListingForm').submit(function (event) {
+
+
+                var selectedType = $('#listingType').val();
+
+                if (selectedType === 'Flight') {
+                    var flightDateValue = $('#FlightDate').val();
+                    var maxPassengersValue = $('#MaxPassengers').val();
+                    var locationValue = $('#Location').val();
+                    var destinationValue = $('#Destination').val();
+
+
+
+                    // Flight specific validations
+                    if (!flightDateValue) {
+
+                        $('#flightDateValidationMessage').text('Please choose a date');
+                        event.preventDefault();
+                    }
+
+
+                    var currentDate = new Date();
+                    var flightDate = new Date(flightDateValue);
+
+                    if (flightDate < currentDate) {
+                        $('#flightDateValidationMessage').text('Date cannot be before current date');
+                        event.preventDefault();
+                    }
+
+
+                    if (maxPassengersValue < 1) {
+                        $('#maxPassengersValidationMessage').text('Maximum passengers must be at least 1');
+                        event.preventDefault();
+                    }
+
+                    if (!locationValue) {
+                        $('#locationValidationMessage').text('Do not leave field blank');
+                        event.preventDefault();
+                    }
+
+                    if (!destinationValue) {
+                        $('#destinationValidationMessage').text('Do not leave field blank');
+                        event.preventDefault();
+                    }
+
+
+                } else if (selectedType === 'Hotel') {
+                    var startDateValue = $('#StartPeriod').val();
+                    var endDateValue = $('#EndPeriod').val();
+                    var roomsValue = $('#Rooms').val();
+
+                    // Hotel specific validations
+
+                    if (!startDateValue) {
+                        $('#startDateValidationMessage').text('Do not leave date empty');
+                        event.preventDefault();
+                    }
+
+                    if (!endDateValue) {
+                        $('#endDateValidationMessage').text('Do not leave date empty');
+                        event.preventDefault();
+                    }
+
+                    if (!roomsValue) {
+                        $('#roomsValidationMessage').text('Do not leave field empty')
+                        event.preventDefault();
+                    }
+
+
+                    var currentDate = new Date();
+                    var startDate = new Date(startDateValue);
+                    var endDate = new Date(endDateValue);
+
+                    if (startDate < currentDate) {
+                        $('#startDateValidationMessage').text('Date cannot be before current date')
+                        event.preventDefault();
+                    }
+
+                    if (endDate <= startDate) {
+                        $('#endDateValidationMessage').text('End date must be after the start date');
+                        event.preventDefault();
+                    }
+
+
+                } else if (selectedType == 'CarRental') {
+
+                    var manufacturerValue = $('#Manufacturer').val();
+                    var modelValue = $('#Model').val();
+
+                    if (!manufacturerValue) {
+                        $('#manufacturerValidationMessage').text('Do not leave field blank');
+                        event.preventDefault();
+                    }
+
+                    if (!modelValue) {
+                        $('#modelValidationMessage').text('Do not leave field blank');
+                        event.preventDefault();
+                    }
+
+                }
+                    
+                
             });
         });
     </script>

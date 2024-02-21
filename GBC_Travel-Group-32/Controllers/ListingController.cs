@@ -317,6 +317,9 @@ namespace GBC_Travel_Group_32.Controllers {
 
                 _context.Listings.Remove(listing);
 
+                var bookings = _context.Bookings.Where(b => b.ListingId == id);
+                _context.Bookings.RemoveRange(bookings);
+
                 if(flightListing != null) {
                     _context.Flights.Remove(flightListing);
                 } else if(hotelListing != null) {
