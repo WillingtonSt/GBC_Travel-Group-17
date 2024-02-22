@@ -4,6 +4,7 @@ using GBC_Travel_Group_32.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace GBC_Travel_Group_32.Controllers {
@@ -243,7 +244,16 @@ namespace GBC_Travel_Group_32.Controllers {
                 return View(flight);
 
             }
-          
+
+
+            int numBookings = countBookings(flight.ListingId);
+
+            if (numBookings >= flight.MaxPassengers) {
+                flight.Available = false;
+            } else if (numBookings < flight.MaxPassengers) {
+                flight.Available = true;
+            }
+
             _context.Listings.Update(flight);
             _context.Flights.Update(flight);
             _context.SaveChanges();
@@ -260,6 +270,15 @@ namespace GBC_Travel_Group_32.Controllers {
 
 
             if (ModelState.IsValid) {
+
+
+                int numBookings = countBookings(hotel.ListingId);
+
+                if (numBookings >= hotel.Rooms) {
+                    hotel.Available = false;
+                } else if (numBookings < hotel.Rooms) {
+                    hotel.Available = true;
+                }
 
                 _context.Listings.Update(hotel);
                 _context.Hotels.Update(hotel);
@@ -336,10 +355,132 @@ namespace GBC_Travel_Group_32.Controllers {
             return NotFound();
         }
 
+        public IActionResult Search() {
 
-        
-       
+            var model = new FilterViewModel();
+
+            return View(model);
         }
+
+
+
+        [HttpGet]
+        public IActionResult SearchResults(string searchTerm, FilterViewModel filters) {
+
+
+            var listings = from listing in _context.Listings
+                           join flight in _context.Flights on listing.ListingId equals flight.ListingId into flightGroup
+                           from flight in flightGroup.DefaultIfEmpty()
+                           join hotel in _context.Hotels on listing.ListingId equals hotel.ListingId into hotelGroup
+                           from hotel in hotelGroup.DefaultIfEmpty()
+                           join carRental in _context.CarRentals on listing.ListingId equals carRental.ListingId into carRentalGroup
+                           from carRental in carRentalGroup.DefaultIfEmpty()
+                           select new {
+                               ListingId = listing.ListingId,
+                               ListingName = listing.Name,
+                               ListingDesc = listing.Description,
+                               ListingAvailable = listing.Available,
+                               FlightDate = flight.FlightDate,
+                               FlightLocation = flight.Location,
+                               FlightDestination = flight.Destination,
+                               CarModel = carRental.Model,
+                               CarManufacturer = carRental.Manufacturer,
+                               ListingPrice = listing.Price
+                           };
+
+
+            if (!string.IsNullOrEmpty(searchTerm)) {
+                var filteredListings = listings.Where(l => l.ListingName.Contains(searchTerm) || l.ListingDesc.Contains(searchTerm));
+            }
+
+            if (filters != null) {
+
+                if (filters.Available) {
+                    listings = listings.Where(l => l.ListingAvailable);
+                }  
+                
+                if (filters.Unavailable) {
+
+                    listings = listings.Where(l => !l.ListingAvailable);
+                }
+                
+                if (filters.FlightDate) {
+                      
+                    listings = listings.Where(l => l.FlightDate >= DateTime.Now);
+                        
+                }
+                
+                if(filters.Location) {
+                    listings = listings.Where(l => l.FlightLocation.Contains(searchTerm));
+
+                }
+                
+                if(filters.Destination) {
+
+                    listings = listings.Where(l => l.FlightDestination.Contains(searchTerm));
+                }
+
+                if (filters.Model) {
+
+                    listings = listings.Where(l => l.CarModel.Contains(searchTerm));
+                }
+
+                if (filters.Manufacturer) {
+
+                    listings = listings.Where(l => l.CarManufacturer.Contains(searchTerm));
+
+                }
+
+                if (filters.MinPrice && searchTerm != null) {
+
+                    float minPrice = float.Parse(searchTerm);
+                    listings = listings.Where(l => l.ListingPrice >= minPrice);
+                }
+                
+                if (filters.MaxPrice && searchTerm != null) {
+
+                    float maxPrice = float.Parse(searchTerm); 
+                    listings = listings.Where(l => l.ListingPrice <= maxPrice);
+                }        
+
+            }
+
+            var uniqueListingIds = listings.Select(item => item.ListingId).Distinct();
+
+            List<Listing> matchingListings = new List<Listing>();
+
+            foreach (var  listingId in uniqueListingIds) {
+
+                var matchingLIsting = _context.Listings.FirstOrDefault(listing => listing.ListingId == listingId);
+
+                if (matchingLIsting != null) {
+
+                    matchingListings.Add(matchingLIsting);
+                }
+
+            }
+            
+
+
+            return View("SearchResults", matchingListings);
+        }
+
+
+
+        public int countBookings(int listingId) {
+
+
+            var bookings = _context.Bookings
+                .Where(b => b.ListingId == listingId)
+                .ToList();
+
+
+            return bookings.Count;
+
+        }
+
+
+    }
 
 
     }

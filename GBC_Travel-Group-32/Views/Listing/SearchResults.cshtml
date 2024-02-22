@@ -1,0 +1,57 @@
+﻿@model List<Listing>
+
+@{
+    ViewData["Title"] = "Search Results";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model.Any()) {
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Available</th>
+                
+                <th>Flight Date</th>
+                <th>Location</th>
+                <th>Destination</th>
+            
+                <th>Start Period</th>
+                <th>End Period</th>
+                <th>Rooms</th>
+                
+                <th>Manufacturer</th>
+                <th>Model</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var listing in Model) {
+                <tr>
+                    <td>@listing.Name</td>
+                    <td>@listing.Description</td>
+                    <td>@listing.Price</td>
+                    <td>@(listing.Available ? "Yes" : "No")</td>
+                    @if (listing is Flight flight) {
+                        <td>@flight.FlightDate.ToString("yyyy-MM-dd")</td>
+                        <td>@flight.Location</td>
+                        <td>@flight.Destination</td>
+                       
+                    } else if (listing is Hotel hotel) {
+                        <td>@hotel.StartPeriod.ToString("yyyy-MM-dd")</td>
+                        <td>@hotel.EndPeriod.ToString("yyyy-MM-dd")</td>
+                        <td>@hotel.Rooms</td>
+                        
+                    } else if (listing is CarRental carRental) {
+                        
+                        <td>@carRental.Model</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+} else {
+    <p>No results found.</p>
+}

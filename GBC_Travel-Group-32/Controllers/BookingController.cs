@@ -214,7 +214,7 @@ namespace GBC_Travel_Group_32.Controllers {
 
 
 
-        private int countBookings(int listingId) {
+        public int countBookings(int listingId) {
 
             
             var bookings = _context.Bookings
