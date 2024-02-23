@@ -2,7 +2,62 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<section class="single-page-header">
+
+<div class="container">
+    
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Welcome</h2>
+
+            <nav aria-label="breadcrumb mx-auto" role="navigation">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Listing" asp-action="Index">Travel Listings</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        Home
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
 </div>
+
+</section>
+
+<section class="service-list  section bg-gray m-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="title text-center">
+                    <h4>Services we offer</h4>
+                    <h2>Our Service.</h2>
+                    <span class="border"></span>
+                    <p>Unsure of where to begin? Click one of these options to get started!</p>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-4 col-sm-6 text-center text-md-left mb-4 mb-md-0">
+                <a asp-controller="Listing" asp-action="Index">
+                    <div class="block">
+                    <i class="fa-regular fa-newspaper"></i>
+                    <h3>View Travel Listings</h3>    
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-4 col-sm-6 text-center text-md-left mb-4 mb-md-0">
+                <a asp-controller="Listing" asp-action="Search">
+                    <div class="block">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <h3>Search Travel Listings</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using GBC_Travel_Group_32.Models;
 using GBC_Travel_Group_32.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Hosting;
+
+
 
 
 namespace GBC_Travel_Group_32.Controllers {
@@ -12,8 +11,11 @@ namespace GBC_Travel_Group_32.Controllers {
 
         private readonly ApplicationDBContext _context;
 
-        public ListingController(ApplicationDBContext context) {
+        private readonly IWebHostEnvironment _environment;
+
+        public ListingController(ApplicationDBContext context, IWebHostEnvironment hostEnvironment) {
             _context = context;
+            _environment = hostEnvironment;
         }
 
         
@@ -69,8 +71,23 @@ namespace GBC_Travel_Group_32.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Listing listing, string listingType, DateTime flightDate, int maxPassengers, string location, string destination, DateTime startPeriod, DateTime endPeriod, int rooms, string manufacturer, string model) {
+        public async Task<IActionResult> Create(Listing listing, string listingType, IFormFile image, DateTime flightDate, int maxPassengers, string location, string destination, DateTime startPeriod, DateTime endPeriod, int rooms, string manufacturer, string model) {
 
+            
+
+            if (listing.Image != null && listing.Image.Length > 0) {
+
+                string uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + listing.Image.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create)) {
+
+                    await listing.Image.CopyToAsync(fileStream);
+                }
+
+                listing.ImageUrl = uniqueFileName;
+            }
 
             
 
@@ -332,12 +349,25 @@ namespace GBC_Travel_Group_32.Controllers {
             var flightListing = _context.Flights.Find(id);
             var hotelListing = _context.Hotels.Find(id);
             var carListing = _context.CarRentals.Find(id);
-            if(listing != null) {
+            if(listing != null && listing.ImageUrl != null) {
 
-                _context.Listings.Remove(listing);
+
+                string uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
+                string filePath = Path.Combine(uploadsFolder, listing.ImageUrl);
+
+                if (System.IO.File.Exists(filePath)) {
+                    System.IO.File.Delete(filePath);
+                }
+
+
+              _context.Listings.Remove(listing);
 
                 var bookings = _context.Bookings.Where(b => b.ListingId == id);
                 _context.Bookings.RemoveRange(bookings);
+
+
+              
+
 
                 if(flightListing != null) {
                     _context.Flights.Remove(flightListing);

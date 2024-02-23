@@ -5,8 +5,32 @@
 }
 
 
-<h2>Edit Car Rental</h2>
+<section class="single-page-header">
 
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Create Listing</h2>
+
+                <nav aria-label="breadcrumb mx-auto" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Listing" asp-action="Index">Travel Listings</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Create Listing
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="contact-us section bg-gray" id="contact" style="display: flex; flex-direction: column; align-items: center">
 <form asp-action="EditCarRental" method="post">
     @Html.AntiForgeryToken()
 
@@ -52,7 +76,7 @@
 
 
 </form>
-
+</section>
 
 @section Scripts {
     @{

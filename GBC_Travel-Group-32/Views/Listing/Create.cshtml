@@ -6,144 +6,170 @@
 
 @{
     ViewData["Title"] = "Create Listing";
-}
 
-<h2>Create Listing</h2>
-
-
-
-
-@{
     var userId = UserManager.GetUserId(User);
 
     
     DateTime date = new DateTime();
         
 
-
 }
 
+<section class="single-page-header">
 
-<form asp-controller="Listing" id="createListingForm" method="post" asp-action="Create">
-    <div  class="text-danger"></div>
+    <div class="container">
 
-    <div class="form-group">
-        <label for="listingType">Listing Type</label>
-        <select class="form-control" id="listingType">
-            <option value="Flight" selected>Flight</option>
-            <option value="Hotel">Hotel</option>
-            <option value="CarRental">Car Rental</option>
-        </select>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Create Listing</h2>
+
+                <nav aria-label="breadcrumb mx-auto" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Listing" asp-action="Index">Travel Listings</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Create Listing
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
     </div>
-   <input type="hidden" name="listingType" id="listingTypeHidden" value="Flight" />
+
+</section>
+
+<section class="contact-us section bg-gray" id="contact" style="display: flex; justify-content: center">
+    <div class="contact-form col-md-6">
+        <form asp-controller="Listing" id="createListingForm" method="post" asp-action="Create" enctype="multipart/form-data">
+            <div  class="text-danger"></div>
+
+            <div class="form-group">
+                <label for="listingType">Listing Type</label>
+                <select class="form-control" id="listingType">
+                    <option value="Flight" selected>Flight</option>
+                    <option value="Hotel">Hotel</option>
+                    <option value="CarRental">Car Rental</option>
+                </select>
+            </div>
+           <input type="hidden" name="listingType" id="listingTypeHidden" value="Flight" />
 
     
 
-    <input type="hidden" asp-for="@Model.UserId" value="@userId" />
+            <input type="hidden" asp-for="@Model.UserId" value="@userId" />
 
     
 
-    <div>
-        <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" required />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
 
-    <div>
-        <label asp-for="Description" class="control-label"></label>
-        <textarea asp-for="Description" class="form-control" required></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" required></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
 
-    <div>
-        <label asp-for="Price" class="control-label"></label>
-        <input asp-for="Price" class="form-control" type="number" required min="0" />
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" type="number" required min="0" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
 
-  
-    <div id="flightFields">
+            <div class="form-group m-5">
+                <label asp-for="Image">Image</label>
+                <input asp-for="Image" type="file" class="form-control-file" id="Image" accept=".jpg, .jpeg, .png" />
+            </div>
+
+            <div id="flightFields">
 
       
 
-            <div>
-                <label for="FlightDate" class="control-label">Flight Date</label>
-            <input name="flightDate" id="FlightDate" class="form-control" type="datetime-local" min="@date" />
-                <div id="flightDateValidationMessage" class="text-danger"></div>
-            </div>
+                    <div>
+                        <label for="FlightDate" class="control-label">Flight Date</label>
+                    <input name="flightDate" id="FlightDate" class="form-control" type="datetime-local" min="@date" />
+                        <div id="flightDateValidationMessage" class="text-danger"></div>
+                    </div>
 
-            <div>
-                <label for="MaxPassengers" class="control-label">Maximum Passengers</label>
-            <input name="maxPassengers" id="MaxPassengers" class="form-control" type="number" min="1" />
-                <div id="maxPassengersValidationMessage" class="text-danger"></div>
-            </div>
+                    <div>
+                        <label for="MaxPassengers" class="control-label">Maximum Passengers</label>
+                    <input name="maxPassengers" id="MaxPassengers" class="form-control" type="number" min="1" />
+                        <div id="maxPassengersValidationMessage" class="text-danger"></div>
+                    </div>
 
-             <div>
-                <label for="Location" class="control-label">Departure</label>
-                <input name="location" id="Location" class="form-control" />
-                <div id="locationValidationMessage" class="text-danger"></div>
-            </div>
+                     <div>
+                        <label for="Location" class="control-label">Departure</label>
+                        <input name="location" id="Location" class="form-control" />
+                        <div id="locationValidationMessage" class="text-danger"></div>
+                    </div>
 
-            <div>
-                <label for="Destination" class="control-label">Destination</label>
-            <input name="destination" id="Destination" class="form-control" />
-            <div id="destinationValidationMessage" class="text-danger"></div>
-            </div>
-
-       
-    </div>
-
-    <div id="hotelFields" style="display: none;">
+                    <div>
+                        <label for="Destination" class="control-label">Destination</label>
+                    <input name="destination" id="Destination" class="form-control" />
+                    <div id="destinationValidationMessage" class="text-danger"></div>
+                    </div>
 
        
+            </div>
 
-        <div>
-            <label for="StartPeriod" class="control-label">Start Period</label>
-            <input name="startPeriod" id="StartPeriod" class="form-control" type="datetime-local" min="@date"/>
-            <div id="startDateValidationMessage" class="text-danger"></div>
-        </div>
+            <div id="hotelFields" style="display: none;">
 
-        <div>
-            <label for="EndPeriod" class="control-label">End Period</label>
-            <input name="endPeriod" id="EndPeriod" class="form-control" type="datetime-local" />
-            <div id="endDateValidationMessage" class="text-danger"></div>
-        </div>
+       
 
-        <div>
-            <label for="Rooms" class="control-label">Number of Rooms</label>
-            <input name="rooms" id="Rooms" class="form-control" type="number" min="1"/>
-            <div id="roomsValidationMessage" class="text-danger"></div>
-        </div>
+                <div>
+                    <label for="StartPeriod" class="control-label">Start Period</label>
+                    <input name="startPeriod" id="StartPeriod" class="form-control" type="datetime-local" min="@date"/>
+                    <div id="startDateValidationMessage" class="text-danger"></div>
+                </div>
+
+                <div>
+                    <label for="EndPeriod" class="control-label">End Period</label>
+                    <input name="endPeriod" id="EndPeriod" class="form-control" type="datetime-local" />
+                    <div id="endDateValidationMessage" class="text-danger"></div>
+                </div>
+
+                <div>
+                    <label for="Rooms" class="control-label">Number of Rooms</label>
+                    <input name="rooms" id="Rooms" class="form-control" type="number" min="1"/>
+                    <div id="roomsValidationMessage" class="text-danger"></div>
+                </div>
 
       
-    </div>
+            </div>
 
-    <div id="carFields" style="display: none;">
+            <div id="carFields" style="display: none;">
 
-        <div>
-            <label for="Manufacturer" class="control-label">Manufacturer</label>
-            <input name="manufacturer" id="Manufacturer" class="form-control" />
-            <div id="manufacturerValidationMessage" class="text-danger"></div>
-        </div>
+                <div>
+                    <label for="Manufacturer" class="control-label">Manufacturer</label>
+                    <input name="manufacturer" id="Manufacturer" class="form-control" />
+                    <div id="manufacturerValidationMessage" class="text-danger"></div>
+                </div>
 
-        <div>
-            <label for="Model" class="control-label">Model</label>
-            <input name="model" id="Model" class="form-control" />
-            <div id="modelValidationMessage" class="text-danger"></div>
-        </div>
+                <div>
+                    <label for="Model" class="control-label">Model</label>
+                    <input name="model" id="Model" class="form-control" />
+                    <div id="modelValidationMessage" class="text-danger"></div>
+                </div>
 
-    </div>
+            </div>
 
     
 
 
   
-    <div class="form-group">
-        <input type="submit" value="Create Listing" class="btn btn-primary" id="flightSubmit"/>
-        <a asp-action="Index" class="btn btn-warning">Cancel</a>
+            <div id="cf-submit" style="display: flex; justify-content: space-evenly; margin: 5px; flex-direction: row">
+                <input type="submit" value="Create Listing"  id="contact-submit" />
+                 <div class="form-group" style="margin-top: 5px; display: flex; align-items: center; background-image: none">
+                      <a asp-action="Index" class="btn-main">Cancel</a>
+                 </div>
+            </div>
+    
+        </form>
     </div>
-</form>
-
+</section>
 @section Scripts {
     <script>
 

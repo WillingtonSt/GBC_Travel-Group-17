@@ -4,54 +4,63 @@
     ViewData["Title"] = "Search Results";
 }
 
-<h2>@ViewData["Title"]</h2>
+<section class="single-page-header mb-4">
 
-@if (Model.Any()) {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Available</th>
-                
-                <th>Flight Date</th>
-                <th>Location</th>
-                <th>Destination</th>
-            
-                <th>Start Period</th>
-                <th>End Period</th>
-                <th>Rooms</th>
-                
-                <th>Manufacturer</th>
-                <th>Model</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var listing in Model) {
-                <tr>
-                    <td>@listing.Name</td>
-                    <td>@listing.Description</td>
-                    <td>@listing.Price</td>
-                    <td>@(listing.Available ? "Yes" : "No")</td>
-                    @if (listing is Flight flight) {
-                        <td>@flight.FlightDate.ToString("yyyy-MM-dd")</td>
-                        <td>@flight.Location</td>
-                        <td>@flight.Destination</td>
-                       
-                    } else if (listing is Hotel hotel) {
-                        <td>@hotel.StartPeriod.ToString("yyyy-MM-dd")</td>
-                        <td>@hotel.EndPeriod.ToString("yyyy-MM-dd")</td>
-                        <td>@hotel.Rooms</td>
-                        
-                    } else if (listing is CarRental carRental) {
-                        
-                        <td>@carRental.Model</td>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Search Results</h2>
+
+                <nav aria-label="breadcrumb mx-auto" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Listing" asp-action="Search">Listing Search</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Search Results
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="mb-4 listingCreate">
+    @if (Model.Any()) {
+        
+
+        @foreach (var listing in Model) {
+
+            <div class="container mb-5 mt-5" style="padding: 0; width: 60%">
+                <div class="row border p-0 d-flex listingContainer">
+
+                    @if (listing.ImageUrl == null) {
+                        <img class="p-0 listingImage" src="~/uploads/default.jpg" class="img-fluid" alt="Travel Listing Image">
+                    } else {
+                        <img class="p-0 listingImage" src="~/uploads/@listing.ImageUrl" class="img-fluid" alt="Travel Listing Image">
                     }
-                </tr>
-            }
-        </tbody>
-    </table>
-} else {
-    <p>No results found.</p>
-}
+
+                    <div class="namePrice">
+
+                        <div class="name">
+                            <a asp-action="Details" asp-route-id="@listing.ListingId">@listing.Name</a>
+                        </div>
+
+                        <div class="price">
+                            $@listing.Price
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        }
+
+    } else {
+        <h3>No Listings Found!</h3>
+    }
+</section>

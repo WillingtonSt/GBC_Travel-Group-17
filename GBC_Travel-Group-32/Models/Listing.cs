@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GBC_Travel_Group_32.Models {
     public class Listing {
@@ -16,6 +17,9 @@ namespace GBC_Travel_Group_32.Models {
         [Required(ErrorMessage = "Price is required")]
         [Range(0, float.MaxValue, ErrorMessage = "Price cannot be negative")]
         public float Price { get; set; }
+
+        [NotMapped]
+        public IFormFile? Image { get; set; }
 
         public string? ImageUrl { get; set; }
 

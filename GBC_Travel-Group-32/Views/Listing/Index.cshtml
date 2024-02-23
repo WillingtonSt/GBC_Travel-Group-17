@@ -8,46 +8,86 @@
 
 }
 
-<h2>Listings</h2>
+<section class="single-page-header mb-4">
 
-@if (Model.Any())
-{
-    <table class="table">
+    <div class="container">
 
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Travel Listings</h2>
 
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Description</th>
-            </tr>
-        </thead>
+                <nav aria-label="breadcrumb mx-auto" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Travel Listings
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
 
+    </div>
 
-        @foreach(var listing in Model)
+</section>
+
+<section class="mb-4 listingCreate">
+    @if (Model.Any())
+    {
+        <div>
+            <a asp-area="" asp-controller="Listing" asp-action="Create" class="btn-create btn btn-main ">
+                <i class="fa-regular fa-plus"></i>
+                <span class="space"></span>
+                <span>Create New Listing</span></a>
+        </div>
+
+        @foreach (var listing in Model)
         {
-             <tbody>
-                  <tr>
-                    <td>@listing.ListingId</td>
-                    <td>@listing.Name</td>
-                    <td>@listing.Description</td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@listing.ListingId">Details</a>
-                        <a asp-action="Edit" asp-route-id="@listing.ListingId">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@listing.ListingId">Delete</a>
-                    </td>
-                  </tr>
-            </tbody>
+
+            <div class="container mb-5 mt-5" style="padding: 0; width: 60%">
+                <div class="row border p-0 d-flex listingContainer">
+
+                    @if (listing.ImageUrl == null)
+                    {
+                        <img class="p-0 listingImage" src="~/uploads/default.jpg" class="img-fluid" alt="Travel Listing Image">
+                    }
+                    else
+
+
+                    {
+                        <img class="p-0 listingImage" src="~/uploads/@listing.ImageUrl" class="img-fluid" alt="Travel Listing Image">
+                    }
+
+                    <div class="namePrice">
+
+                        <div class="name">
+                            <a asp-action="Details" asp-route-id="@listing.ListingId">@listing.Name</a>
+                        </div>
+
+                        <div class="price">
+                            $@listing.Price
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
         }
 
-    </table>
-}
-else 
-{
-    <p>No listings available</p>
-}
+    } else {
+        <h3>No Listings Available!</h3>
+    }
+        </section>
 
- <a asp-area="" asp-controller="Listing" asp-action="Create">Create New Listing</a>
+
+
+
+
+    
+
+ 
 
 
 

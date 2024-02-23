@@ -1,20 +1,59 @@
-﻿@model Listing
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+@model Listing
 
 @{
     ViewData["Title"] = "Listing Details";
 }
 
-<h2>Listing Details</h2>
+<section class="single-page-header">
 
-<div class="card">
+    <div class="container">
 
-    <div class="card-body">
-        <h3 class="card-title">@Model.Name</h3>
-        <p class="card-text">@Model.Description</p>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Listing Details</h2>
 
+                <nav aria-label="breadcrumb mx-auto" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Listing" asp-action="Index">Travel Listings</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Listing Details
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="mb-4 listingCreate" style="padding: 50px;">
+
+    <h1 class="card-title">@Model.Name</h1>
+<div class="center" style="width: 60%">
+
+
+        <div style="display:flex; align-items: center">
+            @if (Model.ImageUrl == null) {
+                <img class="img-fluid" src="~/uploads/default.jpg" />
+            } else {
+                <img class="img-fluid" src="~/uploads/@Model.ImageUrl" />
+            }
+        </div>
+
+
+      
+
+    <div style="display: flex; flex-direction: column; padding: 5%">
+        
         <dl>
+               
             <dt class="col-sm-3">Price</dt>
-            <dd class="col-sm-9">@Model.Price</dd>
+            <dd class="col-sm-9">$@Model.Price</dd>
 
 
             <dt class="col-sm-3">Status</dt>
@@ -44,7 +83,7 @@
             <p>to</p>
             <dd class="col-sm-9">@hotel.EndPeriod</dd>
 
-            <dd class="col-sm-3">Rooms: @hotel.Rooms</dd>
+            <dd class="col-sm-3"><b>Rooms:</b> @hotel.Rooms</dd>
             }
 
         @if(Model is CarRental car) {
@@ -59,7 +98,26 @@
 
         </dl>
 
-        <a asp-controller="Booking" asp-action="Create" asp-route-listingId="@Model.ListingId" class="btn btn-primary">Create Booking</a>
-        <a asp-controller="Listing" asp-action="Index" class="btn btn-secondary">All Listings</a>
+       
 
     </div>
+
+  
+    </div>
+   <h3>Description</h3>
+    <div style="width: 60%; min-height: 150px; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9;">
+        @Model.Description
+    </div>
+
+
+    <div class="mt-10 center" style="display: flex; justify-content:space-evenly; width: 50%" >
+        <a asp-controller="Booking" asp-action="Create" asp-route-listingId="@Model.ListingId" class="btn btn-primary">Create Booking</a>
+        <a asp-controller="Listing" asp-action="Index" class="btn btn-secondary">All Listings</a>
+        @if (User.Identity.IsAuthenticated && UserManager.GetUserId(User) == Model.UserId)
+        {
+            <a asp-controller="Listing" asp-action="Edit" asp-route-id="@Model.ListingId" class="btn btn-outline-success">Edit</a>
+            <a asp-controller="Listing" asp-action="Delete" asp-route-id="@Model.ListingId" class="btn btn-danger">Delete</a>
+        }
+    </div>
+
+    </section>

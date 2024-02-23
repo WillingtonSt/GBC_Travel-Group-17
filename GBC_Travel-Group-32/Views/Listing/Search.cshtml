@@ -4,16 +4,41 @@
     ViewData["Title"] = "Search";
 }
 
-<h2>@ViewData["Title"]</h2>
+<section class="single-page-header">
 
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Search Listings</h2>
+
+                <nav aria-label="breadcrumb mx-auto" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Listing" asp-action="Index">Travel Listings</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Listing Search
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="about-2 section bg-gray center" id="about">
+    <div class="contact-form col-md-6 searchBar">
 <form asp-action="SearchResults" id="searchForm" method="get">
     <div class="form-group">
-        <label for="searchTerm">Search Term:</label>
-        <input type="text" class="form-control" id="searchTerm" name="searchTerm">
+        
+        <input type="text" class="form-control" id="searchTerm" name="searchTerm" placeholder="Search">
     </div>
 
    
-    <div class="form-group" id="selectedFilter">
+    <div class="form-group mt-10" id="selectedFilter">
         <label asp-for="Available"><input asp-for="Available" type="checkbox" />Available</label>
         <label asp-for="Unavailable"><input type="checkbox" asp-for="Unavailable" />Unavailable</label>
         <label asp-for="FlightDate"><input type="checkbox" asp-for="FlightDate" />FlightDate</label>
@@ -24,7 +49,10 @@
         <label asp-for="MinPrice"><input type="checkbox" asp-for="MinPrice" />Minimum Price</label>
         <label asp-for="MaxPrice"><input type="checkbox" asp-for="MaxPrice" />Maximum Price</label>
     </div>
+    <div class="center mt-10">
     <button type="submit" class="btn btn-primary">Search</button>
+    </div>
 </form>
 
-
+</div>
+</section>
