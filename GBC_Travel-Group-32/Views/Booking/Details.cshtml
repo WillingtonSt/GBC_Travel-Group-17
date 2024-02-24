@@ -12,84 +12,137 @@
 
 }
 
-<h2>Booking Details</h2>
-<hr />
 
 
-<div>
-    <dl class="row">
-        <dt class="col-sm-2">User: </dt>
-        <dd class="col-sm-10">@userName</dd>
 
-        <dt class="col-sm-2">Email</dt>
-        <dd class="col-sm-10">@Model.Email</dd>
+<section class="single-page-header">
 
-        <dt class="col-sm-2">Booking Date</dt>
-        <dd class="col-sm-10">@Model.BookingDate</dd>
+    <div class="container">
 
-        <dt class="col-sm-2">Booking End Date</dt>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Bookings Details</h2>
 
-        @if(Model.BookingEndDate == DateTime.MinValue) {
-            <dd class="col-sm-10">N/A</dd>
-        } else {
-            <dd class="col-sm-10">@Model.BookingEndDate</dd>
+                <nav aria-label="breadcrumb mx-auto" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Listing" asp-action="Index">Travel Listings</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Booking Details
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="mb-4 listingCreate">
+    <div class="container mb-5 mt-5" style="padding: 0; width: 40%">
+<div class="bookingContainer" style="display: flex">
+    <div style="display: flex; flex-direction: column; justify-content: center">
+        <div class="bookingDetails">
+            <span class="bookingLabel">Username:</span>
+            <span class="bookingValue">@userName</span>
+        </div>
+        <div class="bookingDetails">
+            <span class="bookingLabel">Email:</span>
+            <span class="bookingValue">@Model.Email</span>
+        </div>
+        <div class="bookingDetails">
+            <span class="bookingLabel">From:</span>
+            <span class="bookingValue">@Model.BookingDate</span>
+        </div>
+        <div class="bookingDetails">
+            <span class="bookingLabel">To:</span>
+            <span class="bookingValue">@Model.BookingEndDate</span>
+        </div>
+                @if (User.Identity.IsAuthenticated && UserManager.GetUserId(User) == Model.UserId)
+                {
+                    <div class="bookingDetails">
+                        <a asp-action="Delete" asp-controller="Booking" asp-route-id="@Model.BookingId" class="btn btn-warning">Cancel Booking</a>
+        </div>
         }
-       
-    </dl>
+
+    </div>
 </div>
-
-<h3>For Listing:</h3>
-
-<div class="card">
-
-    <div class="card-body">
-        <h3 class="card-title">@Model.listing.Name</h3>
-        <p class="card-text">@Model.listing.Description</p>
-
-        <dl>
-            <dt class="col-sm-3">Price</dt>
-            <dd class="col-sm-9">@Model.listing.Price</dd>
+    </div>
 
 
-            <dt class="col-sm-3">Status</dt>
-            @if (Model.listing.Available) {
-                <dd class="col-sm-9">Available</dd>
+    <h1>For Listing:</h1>
+</section>
+
+<section class="mb-4 listingCreate" style="padding: 50px;">
+
+    <h1 class="card-title">@Model.listing.Name</h1>
+    <div class="center" style="width: 60%">
+
+
+        <div style="display:flex; align-items: center">
+            @if (Model.listing.ImageUrl == null) {
+                <img class="img-fluid" src="~/uploads/default.jpg" />
             } else {
-                <dd class="col-sm-9">Unavailable</dd>
+                <img class="img-fluid" src="~/uploads/@Model.listing.ImageUrl" />
             }
+        </div>
 
 
-            @if (Model.listing is Flight flight) {
-
-                <dt class="col-sm-3">Flight Date</dt>
-                <dd class="col-sm-9">@flight.FlightDate</dd>
-
-                <dd class="col-sm-9">Maximum Passengers: @flight.MaxPassengers</dd>
-
-                <dt class="col-sm-3">Flying From</dt>
-                <dd class="col-sm-9">@flight.Location</dd>
-
-                <dt class="col-sm-3">Destination</dt>
-                <dd class="col-sm-9">@flight.Destination</dd>
-            } else if (Model.listing is Hotel hotel) {
-
-                <dt class="col-sm-3">Availability Period</dt>
-                <dd class="col-sm-9">@hotel.StartPeriod</dd>
-                <p>to</p>
-                <dd class="col-sm-9">@hotel.EndPeriod</dd>
-
-                <dd class="col-sm-3">Rooms: @hotel.Rooms</dd>
-            }
-
-            @if (Model.listing is CarRental car) {
-
-                <dt class="col-sm-3">Manufacturer</dt>
-                <dd class="col-sm-9">@car.Manufacturer</dd>
-
-                <dt class="col-sm-3">Model</dt>
-                <dd class="col-sm-9">@car.Model</dd>
-            }
 
 
-        </dl>
+        <div style="display: flex; flex-direction: column; padding: 5%">
+
+            <dl>
+
+                <dt class="col-sm-3">Price</dt>
+                <dd class="col-sm-9">$@Model.listing.Price</dd>
+
+
+                <dt class="col-sm-3">Status</dt>
+                @if (Model.listing.Available) {
+                    <dd class="col-sm-9">Available</dd>
+                } else {
+                    <dd class="col-sm-9">Unavailable</dd>
+                }
+
+
+                @if (Model.listing is Flight flight) {
+
+                    <dt class="col-sm-3">Flight Date</dt>
+                    <dd class="col-sm-9">@flight.FlightDate</dd>
+
+                    <dd class="col-sm-9">Maximum Passengers: @flight.MaxPassengers</dd>
+
+                    <dt class="col-sm-3">Flying From</dt>
+                    <dd class="col-sm-9">@flight.Location</dd>
+
+                    <dt class="col-sm-3">Destination</dt>
+                    <dd class="col-sm-9">@flight.Destination</dd>
+                } else if (Model.listing is Hotel hotel) {
+
+                    <dt class="col-sm-3">Availability Period</dt>
+                    <dd class="col-sm-9">@hotel.StartPeriod</dd>
+                    <p>to</p>
+                    <dd class="col-sm-9">@hotel.EndPeriod</dd>
+
+                    <dd class="col-sm-3"><b>Rooms:</b> @hotel.Rooms</dd>
+                }
+
+                @if (Model.listing is CarRental car) {
+
+                    <dt class="col-sm-3">Manufacturer</dt>
+                    <dd class="col-sm-9">@car.Manufacturer</dd>
+
+                    <dt class="col-sm-3">Model</dt>
+                    <dd class="col-sm-9">@car.Model</dd>
+                }
+
+            </dl>
+        </div>
+    </div>
+    <h3>Description</h3>
+    <div style="width: 60%; min-height: 150px; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9;">
+        @Model.listing.Description
     </div>

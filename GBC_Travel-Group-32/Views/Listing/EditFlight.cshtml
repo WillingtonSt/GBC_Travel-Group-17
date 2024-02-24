@@ -5,15 +5,40 @@
 }
 
 
-<h2>Edit Flight</h2>
+<section class="single-page-header">
 
-<form asp-action="EditFlight" method="post">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Edit FlightListing</h2>
+
+                <nav aria-label="breadcrumb mx-auto" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Listing" asp-action="Index">Travel Listings</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Create Listing
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="contact-us section bg-gray" id="contact" style="display: flex; flex-direction: column; align-items: center">
+    <form asp-action="EditFlight" method="post" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
   
 
     <input type="hidden" asp-for="ListingId" />
     <input type="hidden" asp-for="UserId" />
     <input type="hidden" asp-for="Available" />
+    <input type="hidden" asp-for="ImageUrl" />
 
     <div class="form-group">
         <label asp-for="Name"></label>
@@ -34,7 +59,10 @@
     </div>
 
 
-
+        <div class="form-group m-5">
+            <label asp-for="Image">Image</label>
+            <input asp-for="Image" type="file" class="form-control-file" id="Image" accept=".jpg, .jpeg, .png" />
+        </div>
 
     
      <div>
@@ -68,7 +96,7 @@
 
 
 </form>
-
+</section>
 
 @section Scripts {
     @{

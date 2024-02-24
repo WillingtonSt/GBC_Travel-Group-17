@@ -2,6 +2,9 @@
 using GBC_Travel_Group_32.Models;
 using GBC_Travel_Group_32.Data;
 using Microsoft.AspNetCore.Hosting;
+using GBC_Travel_Group_32.Migrations;
+using Listing = GBC_Travel_Group_32.Models.Listing;
+using System.Reflection;
 
 
 
@@ -30,6 +33,16 @@ namespace GBC_Travel_Group_32.Controllers {
 
             return View(listings);
         }
+
+        [HttpGet]
+        public IActionResult UserListing(string id) {
+
+            var listings = _context.Listings.Where(l => l.UserId == id).ToList();
+
+            return View(listings);
+
+        }
+
 
         [HttpGet]
         public IActionResult Details(int id) {
@@ -71,7 +84,7 @@ namespace GBC_Travel_Group_32.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Listing listing, string listingType, IFormFile image, DateTime flightDate, int maxPassengers, string location, string destination, DateTime startPeriod, DateTime endPeriod, int rooms, string manufacturer, string model) {
+        public async Task<IActionResult> Create(Listing listing, string listingType, DateTime flightDate, int maxPassengers, string location, string destination, DateTime startPeriod, DateTime endPeriod, int rooms, string manufacturer, string model) {
 
             
 
@@ -253,37 +266,93 @@ namespace GBC_Travel_Group_32.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditFlight(Flight flight) {
+        public async Task<IActionResult> EditFlight(Flight flight) {
 
-           
-            if (!ModelState.IsValid) {
-               
-                return View(flight);
+            if (flight.Image != null && flight.Image.Length > 0) {
 
-            }
+                string uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
+
+                if (flight.ImageUrl != null) {
 
 
-            int numBookings = countBookings(flight.ListingId);
+                    
+                    string filePath = Path.Combine(uploadsFolder, flight.ImageUrl);
 
-            if (numBookings >= flight.MaxPassengers) {
-                flight.Available = false;
-            } else if (numBookings < flight.MaxPassengers) {
-                flight.Available = true;
-            }
+                    if (System.IO.File.Exists(filePath)) {
+                        System.IO.File.Delete(filePath);
+                    }
 
-            _context.Listings.Update(flight);
-            _context.Flights.Update(flight);
-            _context.SaveChanges();
-            return View(nameof(Details), flight);
-           
+                }
 
+                    string uniqueFileName = Guid.NewGuid().ToString() + "_" + flight.Image.FileName;
+                    string newFilePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(newFilePath, FileMode.Create)) {
+
+                        await flight.Image.CopyToAsync(fileStream);
+                    }
+
+                    flight.ImageUrl = uniqueFileName;
+                }
+            
+
+                if (!ModelState.IsValid) {
+
+                    return View(flight);
+
+                }
+
+
+                int numBookings = countBookings(flight.ListingId);
+
+                if (numBookings >= flight.MaxPassengers) {
+                    flight.Available = false;
+                } else if (numBookings < flight.MaxPassengers) {
+                    flight.Available = true;
+                }
+
+                _context.Listings.Update(flight);
+                _context.Flights.Update(flight);
+                _context.SaveChanges();
+                return View(nameof(Details), flight);
+
+
+            
         }
-
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditHotel(Hotel hotel) {
+        public async Task<IActionResult> EditHotel(Hotel hotel) {
+
+            if (hotel.Image != null && hotel.Image.Length > 0) {
+
+                string uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
+
+                if (hotel.ImageUrl != null) {
+
+
+
+                    string filePath = Path.Combine(uploadsFolder, hotel.ImageUrl);
+
+                    if (System.IO.File.Exists(filePath)) {
+                        System.IO.File.Delete(filePath);
+                    }
+
+                }
+
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + hotel.Image.FileName;
+                string newFilePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(newFilePath, FileMode.Create)) {
+
+                    await hotel.Image.CopyToAsync(fileStream);
+                }
+
+                hotel.ImageUrl = uniqueFileName;
+            }
+
+
 
 
             if (ModelState.IsValid) {
@@ -309,9 +378,34 @@ namespace GBC_Travel_Group_32.Controllers {
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult EditCarRental(CarRental car) {
+        public async Task<IActionResult> EditCarRental(CarRental car) {
 
-           
+            if (car.Image != null && car.Image.Length > 0) {
+
+                string uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
+
+                if (car.ImageUrl != null) {
+
+
+
+                    string filePath = Path.Combine(uploadsFolder, car.ImageUrl);
+
+                    if (System.IO.File.Exists(filePath)) {
+                        System.IO.File.Delete(filePath);
+                    }
+
+                }
+
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + car.Image.FileName;
+                string newFilePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(newFilePath, FileMode.Create)) {
+
+                    await car.Image.CopyToAsync(fileStream);
+                }
+
+                car.ImageUrl = uniqueFileName;
+            }
 
             if (ModelState.IsValid) {
 
@@ -346,10 +440,11 @@ namespace GBC_Travel_Group_32.Controllers {
 
 
             var listing = _context.Listings.Find(id);
+            string userId = listing.UserId;
             var flightListing = _context.Flights.Find(id);
             var hotelListing = _context.Hotels.Find(id);
             var carListing = _context.CarRentals.Find(id);
-            if(listing != null && listing.ImageUrl != null) {
+            if (listing.ImageUrl != null) {
 
 
                 string uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
@@ -359,28 +454,31 @@ namespace GBC_Travel_Group_32.Controllers {
                     System.IO.File.Delete(filePath);
                 }
 
+            } 
+            
+            if (listing != null) {
 
-              _context.Listings.Remove(listing);
+                _context.Listings.Remove(listing);
 
                 var bookings = _context.Bookings.Where(b => b.ListingId == id);
                 _context.Bookings.RemoveRange(bookings);
 
 
-              
 
 
-                if(flightListing != null) {
+
+                if (flightListing != null) {
                     _context.Flights.Remove(flightListing);
-                } else if(hotelListing != null) {
+                } else if (hotelListing != null) {
                     _context.Hotels.Remove(hotelListing);
                 } else if (carListing != null) {
                     _context.CarRentals.Remove(carListing);
                 }
 
                 _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
-            }
+                return RedirectToAction(nameof(UserListing), new {id = userId});
 
+            }
 
             return NotFound();
         }

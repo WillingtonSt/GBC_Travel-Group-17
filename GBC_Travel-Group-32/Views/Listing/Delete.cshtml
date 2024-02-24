@@ -4,106 +4,117 @@
     ViewData["Title"] = "Delete Listing";
 }
 
-<h2>Delete Project</h2>
+<section class="single-page-header">
 
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Delete Listing</h2>
+
+                <nav aria-label="breadcrumb mx-auto" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Listing" asp-action="Index">Travel Listings</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Delete Listing
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="mb-4 listingCreate" style="padding: 50px;">
 <h3>Are you sure you want to delete this listing?</h3>
-<dl class="row">
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Name)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Name)
-    </dd>
+<section class="mb-4 listingCreate" style="padding: 50px;">
 
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Description)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Description)
-    </dd>
-
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Price)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Price)
-    </dd>
+    <h1 class="card-title">@Model.Name</h1>
+    <div class="center" style="width: 60%">
 
 
-    @if(Model is Flight flight) {
-
-        <dt class="col-sm-2">
-            Flight Date
-        </dt>
-        <dd class="col-sm-10">
-            @flight.FlightDate
-        </dd>
-
-        <dt class="col-sm-2">
-           Location
-        </dt>
-        <dd class="col-sm-10">
-            @flight.Location
-        </dd>
-
-        <dt class="col-sm-2">
-            Destination
-        </dt>
-        <dd class="col-sm-10">
-            @flight.Destination
-        </dd>
-    }
-
-    @if(Model is Hotel hotel) {
-
-        <dt class="col-sm-2">
-            Start Period
-        </dt>
-        <dd class="col-sm-10">
-            @hotel.StartPeriod
-        </dd>
-
-        <dt class="col-sm-2">
-            End Period
-        </dt>
-        <dd class="col-sm-10">
-            @hotel.EndPeriod
-        </dd>
-
-        <dt class="col-sm-2">
-            Rooms
-        </dt>
-        <dd class="col-sm-10">
-            @hotel.Rooms
-        </dd>
-    }
-
-    @if(Model is CarRental car) {
-
-        <dt class="col-sm-2">
-           Manufacturer
-        </dt>
-        <dd class="col-sm-10">
-            @car.Manufacturer
-        </dd>
-
-        <dt class="col-sm-2">
-           Model
-        </dt>
-        <dd class="col-sm-10">
-            @car.Model
-        </dd>
-
-        
-    }
+        <div style="display:flex; align-items: center">
+            @if (Model.ImageUrl == null) {
+                <img class="img-fluid" src="~/uploads/default.jpg" />
+            } else {
+                <img class="img-fluid" src="~/uploads/@Model.ImageUrl" />
+            }
+        </div>
 
 
-</dl>
 
-<form asp-controller="Listing" asp-action="DeleteConfirmed" method="post">
+
+        <div style="display: flex; flex-direction: column; padding: 5%">
+
+            <dl>
+
+                <dt class="col-sm-3">Price</dt>
+                <dd class="col-sm-9">$@Model.Price</dd>
+
+
+                <dt class="col-sm-3">Status</dt>
+                @if (Model.Available) {
+                    <dd class="col-sm-9">Available</dd>
+                } else {
+                    <dd class="col-sm-9">Unavailable</dd>
+                }
+
+
+                @if (Model is Flight flight) {
+
+                    <dt class="col-sm-3">Flight Date</dt>
+                    <dd class="col-sm-9">@flight.FlightDate</dd>
+
+                    <dd class="col-sm-9">Maximum Passengers: @flight.MaxPassengers</dd>
+
+                    <dt class="col-sm-3">Flying From</dt>
+                    <dd class="col-sm-9">@flight.Location</dd>
+
+                    <dt class="col-sm-3">Destination</dt>
+                    <dd class="col-sm-9">@flight.Destination</dd>
+                } else if (Model is Hotel hotel) {
+
+                    <dt class="col-sm-3">Availability Period</dt>
+                    <dd class="col-sm-9">@hotel.StartPeriod</dd>
+                    <p>to</p>
+                    <dd class="col-sm-9">@hotel.EndPeriod</dd>
+
+                    <dd class="col-sm-3"><b>Rooms:</b> @hotel.Rooms</dd>
+                }
+
+                @if (Model is CarRental car) {
+
+                    <dt class="col-sm-3">Manufacturer</dt>
+                    <dd class="col-sm-9">@car.Manufacturer</dd>
+
+                    <dt class="col-sm-3">Model</dt>
+                    <dd class="col-sm-9">@car.Model</dd>
+                }
+
+
+            </dl>
+
+
+
+        </div>
+
+
+    </div>
+    <h3>Description</h3>
+    <div style="width: 60%; min-height: 150px; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9;">
+        @Model.Description
+    </div>
+
+<form asp-controller="Listing" asp-action="DeleteConfirmed" asp-route-id="@Model.ListingId" method="post">
     @Html.AntiForgeryToken()
 
     <input type="hidden" name="id" value="@Model.ListingId" />
     <button type="submit" class="btn btn-danger">Delete</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
+</section>

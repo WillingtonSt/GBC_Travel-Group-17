@@ -24,10 +24,10 @@ namespace GBC_Travel_Group_32.Controllers {
         public IActionResult Index(int listingId) {
 
 
-            var bookings = _context.Bookings.ToList();
+            var bookings = _context.Bookings.Where(b => b.ListingId == listingId).ToList();
            
 
-            ViewBag.ListingId = listingId;
+    
 
             return View(bookings);
         }

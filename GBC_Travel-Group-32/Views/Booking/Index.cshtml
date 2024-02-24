@@ -6,46 +6,83 @@
     ViewData["Title"] = "Bookings";
 }
 
-<h2>@ViewData["Title"]</h2>
+<section class="single-page-header">
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Bookings for Listing</h2>
+
+                <nav aria-label="breadcrumb mx-auto" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Listing" asp-action="Index">Travel Listings</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Bookings for Listings
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+</section>
 
 
-<table class="table">
+<section class="mb-4 listingCreate">
+
+
+        @if (Model == null) {
+
+            <h2>No Bookings!</h2>
+
+        } else {
+
+            @foreach (var booking in Model) {
+
+                var user = await UserManager.FindByIdAsync(booking.UserId);
+                string userName = user != null ? await UserManager.GetUserNameAsync(user) : "Guest";
 
 
 
+                <div class="container mb-5 mt-5" style="padding: 0; width: 40%">
+                    <a asp-action="Details" asp-controller="Booking" asp-route-id="@booking.BookingId">
+                        <div class="bookingContainer" style="display: flex">
+                            <div style="display: flex; flex-direction: column; justify-content: center">
+                                <div class="bookingDetails">
+                                    <span class="bookingLabel">Username:</span>
+                                    <span class="bookingValue">@userName</span>
+                                </div>
+                                <div class="bookingDetails">
+                                    <span class="bookingLabel">Email:</span>
+                                    <span class="bookingValue">@booking.Email</span>
+                                </div>
+                                <div class="bookingDetails">
+                                    <span class="bookingLabel">From:</span>
+                                    <span class="bookingValue">@booking.BookingDate</span>
+                                </div>
+                                <div class="bookingDetails">
+                                    <span class="bookingLabel">To:</span>
+                                    <span class="bookingValue">@booking.BookingEndDate</span>
+                                </div>
+                            </div>
+                            <div style="display:flex; justify-content: flex-end;">
+                                @if (booking.listing.ImageUrl == null) {
+                                    <img src="~/uploads/default.jpg" style="max-width: 50%" />
+                                } else {
+                                    <img src="~/uploads/@booking.listing.ImageUrl" style="max-width: 50%" />
+                                }
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        }
 
-    <thead>
-        <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Booking Date</th>
-            <th>Booking EndDate</th>
-            
-        </tr>
-    </thead>
+    </section>
 
 
-    @foreach (var booking in Model) {
 
-        
-            var user = await UserManager.FindByIdAsync(booking.UserId);
-            string userName = user != null ? await UserManager.GetUserNameAsync(user) : "Guest";
-
-        <tbody>
-            <tr>
-               
-                <td>@userName</td>
-                <td>@booking.Email</td>
-                <td>@booking.BookingDate</td>
-                <td>@booking.BookingEndDate</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@booking.BookingId">Details</a>
-                    <a asp-action="Delete"asp-route-id="@booking.BookingId">Cancel</a>
-                </td>
-            </tr>
-        </tbody>
-    }
-</table>
-
-
-<a asp-controller="Listing" asp-action="Index" class="btn btn-secondary">Back to Listings</a>

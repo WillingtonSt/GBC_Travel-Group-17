@@ -14,7 +14,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <h2>Travel Listings</h2>
+                <h2>User Listings</h2>
 
                 <nav aria-label="breadcrumb mx-auto" role="navigation">
                     <ol class="breadcrumb">
@@ -22,7 +22,7 @@
                             <a asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
-                            Travel Listings
+                            My Listings
                         </li>
                     </ol>
                 </nav>
@@ -34,29 +34,23 @@
 </section>
 
 <section class="mb-4 listingCreate">
-    @if (Model.Any())
-    {
+    @if (Model.Any()) {
         <div>
             <a asp-area="" asp-controller="Listing" asp-action="Create" class="btn-create btn btn-main ">
                 <i class="fa-regular fa-plus"></i>
                 <span class="space"></span>
-                <span>Create New Listing</span></a>
+                <span>Create New Listing</span>
+            </a>
         </div>
 
-        @foreach (var listing in Model)
-        {
+        @foreach (var listing in Model) {
 
             <div class="container mb-5 mt-5" style="padding: 0; width: 60%">
                 <div class="row border p-0 d-flex listingContainer">
 
-                    @if (listing.ImageUrl == null)
-                    {
+                    @if (listing.ImageUrl == null) {
                         <img class="p-0 listingImage" src="~/uploads/default.jpg" class="img-fluid" alt="Travel Listing Image">
-                    }
-                    else
-
-
-                    {
+                    } else {
                         <img class="p-0 listingImage" src="~/uploads/@listing.ImageUrl" class="img-fluid" alt="Travel Listing Image">
                     }
 
@@ -87,15 +81,6 @@
             </a>
         </div>
     }
-        </section>
-
-
-
-
-
-    
-
- 
-
+</section>
 
 

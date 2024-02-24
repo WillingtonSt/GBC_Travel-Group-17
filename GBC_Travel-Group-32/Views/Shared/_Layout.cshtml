@@ -15,12 +15,13 @@
 
 </head>
 <body id="body" class="mb-0">
+
         <section class="header navigation fixed-top">
            <div class="container">
                <div class="row">
                    <div class="col-lg-12">
                        <nav class="navbar navbar-expand-lg">
-                        <a class="navbar-brand" asp-controller="Home" asp-action="Index">GBC Travel Group 32</a>
+                        <a class="navbar-brand" asp-controller="Home" asp-action="Index"><img src="~/img/Bigweld.webp" style="height: 24px" /><img src="~/img/Bigweld.webp" style="height: 24px" /><img src="~/img/Bigweld.webp" style="height: 24px" /><img src="~/img/Bigweld.webp" style="height: 24px" /></a>
                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" 
                            aria-controls="navigation" aria-expanded="false" aria-label="Toggle navivation">
                            <span class="tf-ion-android-menu"></span>
@@ -40,6 +41,9 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" asp-controller="Booking" asp-action="UserBookings" asp-route-userId="@UserManager.GetUserId(User)">My Bookings</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-controller="Listing" asp-action="UserListing" asp-route-id="@UserManager.GetUserId(User)">My Listings</a>
                                     </li>
                                 } else {
                                 <li class="nav-item">

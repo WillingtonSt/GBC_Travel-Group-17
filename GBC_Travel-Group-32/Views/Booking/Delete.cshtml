@@ -10,9 +10,30 @@
 }
 
 
-<h2>Delete Project</h2>
+<section class="single-page-header">
 
+    <div class="container">
 
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Delete Booking</h2>
+
+                <nav aria-label="breadcrumb mx-auto" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Booking" asp-action="UserBookings" asp-route-userId="@Model.UserId">My Bookings</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Delete Booking
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+</section>
 
 @if (!User.Identity.IsAuthenticated)
 {
@@ -33,28 +54,33 @@ else if (User.Identity.IsAuthenticated && UserManager.GetUserId(User) == Model.U
 
     var user = await UserManager.FindByIdAsync(Model.UserId);
 
-    <h3>Are you sure you want to cancel this booking?</h3>
-    <div>
-        <dl class="row">
-            <dt class="col-sm-2">User: </dt>
-            <dd class="col-sm-10">@user.UserName</dd>
+    <section class="mb-4 listingCreate">
+        <div class="container mb-5 mt-5" style="padding: 0; width: 40%">
+            <div class="bookingContainer" style="display: flex">
+                <div style="display: flex; flex-direction: column; justify-content: center">
+                    <div class="bookingDetails">
+                        <span class="bookingLabel">Username:</span>
+                        <span class="bookingValue">@user.UserName</span>
+                    </div>
+                    <div class="bookingDetails">
+                        <span class="bookingLabel">Email:</span>
+                        <span class="bookingValue">@Model.Email</span>
+                    </div>
+                    <div class="bookingDetails">
+                        <span class="bookingLabel">From:</span>
+                        <span class="bookingValue">@Model.BookingDate</span>
+                    </div>
+                    <div class="bookingDetails">
+                        <span class="bookingLabel">To:</span>
+                        <span class="bookingValue">@Model.BookingEndDate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            <dt class="col-sm-2">Email</dt>
-            <dd class="col-sm-10">@Model.Email</dd>
 
-            <dt class="col-sm-2">Booking Date</dt>
-            <dd class="col-sm-10">@Model.BookingDate</dd>
+  
 
-            <dt class="col-sm-2">Booking End Date</dt>
-
-            @if (Model.BookingEndDate == DateTime.MinValue) {
-                <dd class="col-sm-10">N/A</dd>
-            } else {
-                <dd class="col-sm-10">@Model.BookingEndDate</dd>
-            }
-
-        </dl>
-    </div>
 
     <form asp-controller="Booking" asp-action="DeleteConfirmed" method="post">
         @Html.AntiForgeryToken()
@@ -63,6 +89,7 @@ else if (User.Identity.IsAuthenticated && UserManager.GetUserId(User) == Model.U
         <button type="submit" class="btn btn-danger">Cancel Booking</button>
         <a asp-action="UserBooking" asp-route-userId="@Model.UserId" class="btn btn-secondary">Go Back</a>
     </form>
+    </section>
 } else {
     
     <h3>No Booking Found</h3>

@@ -10,6 +10,29 @@
 
 @import url("https://fonts.googleapis.com/css?family=Titillium+Web:300,400,600,700");
 
+
+.bookingContainer {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px; /* Add some spacing between booking containers */
+}
+
+.bookingDetails {
+    margin-bottom: 5px; /* Add spacing between each booking detail */
+}
+
+.bookingLabel {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.bookingValue {
+    color: #333; /* Change text color for booking values */
+}
+
+
 .searchBar {
     display: flex;
     flex-direction: column;

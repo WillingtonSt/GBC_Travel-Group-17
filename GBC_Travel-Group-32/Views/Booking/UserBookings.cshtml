@@ -6,45 +6,78 @@
     ViewData["Title"] = "User Bookings";
 }
 
-<h2>@ViewData["Title"]</h2>
+<section class="single-page-header">
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>User Bookings</h2>
+
+                <nav aria-label="breadcrumb mx-auto" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Listing" asp-action="Index">Travel Listings</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            User Bookings
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="mb-4 listingCreate">
 
 
-<table class="table">
+    @if(Model == null) {
+        
+        <h2>No Bookings!</h2>
 
-
-    <thead>
-        <tr>
-            <th>Listing Name</th>
-            <th>Booking Start Date</th>
-            <th>Booking End Date</th>
-
-        </tr>
-    </thead>
+    } else {
 
 
     @foreach (var booking in Model) {
+        <div class="container mb-5 mt-5" style="padding: 0; width: 40%">
+            <a asp-action="Details" asp-controller="Booking" asp-route-id="@booking.BookingId">
+                <div class="bookingContainer" style="display: flex">
+                    <div style="display: flex; flex-direction: column; justify-content: center">
+                    <div class="bookingDetails">
+                        <span class="bookingLabel">Booking for:</span>
+                        <span class="bookingValue">@booking.listing.Name</span>
+                    </div>
+                    <div class="bookingDetails">
+                        <span class="bookingLabel">From:</span>
+                        <span class="bookingValue">@booking.BookingDate</span>
+                    </div>
+                    <div class="bookingDetails">
+                        <span class="bookingLabel">To:</span>
+                        <span class="bookingValue">@booking.BookingEndDate</span>
+                    </div>
+                    </div>
+                    <div style="display:flex; justify-content: flex-end;">
+                        @if(booking.listing.ImageUrl == null) {
+                            <img src="~/uploads/default.jpg" style="max-width: 50%" />
+                        } else {
+                        <img src="~/uploads/@booking.listing.ImageUrl" style="max-width: 50%" />
+                        }
+                    </div>
+                </div>
 
-
+                </a>
         
 
-        <tbody>
-            <tr>
+       </div>
+            
 
-                <td>@booking.listing.Name</td>
-                <td>@booking.BookingDate</td>
-                @if (booking.BookingEndDate == DateTime.MinValue) {
-                 <td>N/A</td>
-                } else {
-                 <td>@booking.BookingEndDate</td>
-                }
-                <td>
-                    <a asp-action="Details" asp-route-id="@booking.BookingId">Details</a>
-                    <a asp-action="Delete" asp-route-id="@booking.BookingId">Cancel Booking</a>
-                </td>
-            </tr>
-        </tbody>
+    }  
     }
-</table>
+    
 
 
-<a asp-controller="Listing" asp-action="Index" class="btn btn-secondary">Listings</a>
+
+</section>

@@ -19,15 +19,34 @@
 
 }
 
-@if(Model.listing == null) {
-    <h2>THIS SHIT NULL</h2>
-} else if(Model.ListingId == null) {
-    <h2>ID IS NULL WTF</h2>
-}
-
-<h2>@ViewData["Title"]</h2>
 
 
+<section class="single-page-header">
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Create Booking</h2>
+
+                <nav aria-label="breadcrumb mx-auto" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Listing" asp-action="Index">Travel Listings</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Create Booking
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="contact-us section bg-gray" id="contact" style="display: flex; flex-direction: column; align-items: center">
 <form asp-action="Create" method="post">
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -111,7 +130,7 @@
 
 
 </form>
-
+</section>
 
 @section Scripts {
     @{

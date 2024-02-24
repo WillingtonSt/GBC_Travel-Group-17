@@ -197,6 +197,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\joeba\\source\\repos\\WillingtonSt\\GBC_Travel-Group-32\\GBC_Travel-Group-32\\wwwroot\\img\\Bigweld.webp",
+      "PackagePath": "staticwebassets\\img\\Bigweld.webp"
+    },
+    {
       "Id": "C:\\Users\\joeba\\source\\repos\\WillingtonSt\\GBC_Travel-Group-32\\GBC_Travel-Group-32\\wwwroot\\img\\stockPhotoSwingSet.jpg",
       "PackagePath": "staticwebassets\\img\\stockPhotoSwingSet.jpg"
     },
@@ -431,6 +435,18 @@
     {
       "Id": "C:\\Users\\joeba\\source\\repos\\WillingtonSt\\GBC_Travel-Group-32\\GBC_Travel-Group-32\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "C:\\Users\\joeba\\source\\repos\\WillingtonSt\\GBC_Travel-Group-32\\GBC_Travel-Group-32\\wwwroot\\uploads\\5c522b10-6883-488f-942f-2e0ee2b6f6b7_JonArbuckle.png",
+      "PackagePath": "staticwebassets\\uploads\\5c522b10-6883-488f-942f-2e0ee2b6f6b7_JonArbuckle.png"
+    },
+    {
+      "Id": "C:\\Users\\joeba\\source\\repos\\WillingtonSt\\GBC_Travel-Group-32\\GBC_Travel-Group-32\\wwwroot\\uploads\\6ebf8aeb-57da-4d4e-a2cd-0502b4370aa9_JonArbuckle.png",
+      "PackagePath": "staticwebassets\\uploads\\6ebf8aeb-57da-4d4e-a2cd-0502b4370aa9_JonArbuckle.png"
+    },
+    {
+      "Id": "C:\\Users\\joeba\\source\\repos\\WillingtonSt\\GBC_Travel-Group-32\\GBC_Travel-Group-32\\wwwroot\\uploads\\898fddff-af48-4bf7-b300-004c77b07501_mfw.png",
+      "PackagePath": "staticwebassets\\uploads\\898fddff-af48-4bf7-b300-004c77b07501_mfw.png"
     },
     {
       "Id": "C:\\Users\\joeba\\source\\repos\\WillingtonSt\\GBC_Travel-Group-32\\GBC_Travel-Group-32\\wwwroot\\uploads\\default.jpg",
