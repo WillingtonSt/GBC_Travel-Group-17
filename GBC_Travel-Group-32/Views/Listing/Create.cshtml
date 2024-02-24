@@ -40,6 +40,16 @@
 
 </section>
 
+@if(!User.Identity.IsAuthenticated) {
+    
+    <section class="contact-us section bg-gray" id="contact" style="display: flex; justify-content: center">
+        <h3>Not Logged in!</h3><br />
+        <div class="container"><h4><a asp-action="Login" asp-controller="User">Login Here</a></h4>
+        </div>
+        </section>
+
+} else {
+
 <section class="contact-us section bg-gray" id="contact" style="display: flex; justify-content: center">
     <div class="contact-form col-md-6">
         <form asp-controller="Listing" id="createListingForm" method="post" asp-action="Create" enctype="multipart/form-data">
@@ -170,6 +180,7 @@
         </form>
     </div>
 </section>
+}
 @section Scripts {
     <script>
 

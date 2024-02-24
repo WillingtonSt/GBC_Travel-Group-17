@@ -36,13 +36,15 @@
 <section class="mb-4 listingCreate">
     @if (Model.Any())
     {
-        <div>
-            <a asp-area="" asp-controller="Listing" asp-action="Create" class="btn-create btn btn-main ">
+        if (User.Identity.IsAuthenticated)
+        {
+            <div>
+                <a asp-area="" asp-controller="Listing" asp-action="Create" class="btn-create btn btn-main ">
                 <i class="fa-regular fa-plus"></i>
                 <span class="space"></span>
                 <span>Create New Listing</span></a>
         </div>
-
+        }
         @foreach (var listing in Model)
         {
 
