@@ -24,10 +24,11 @@ namespace GBC_Travel_Group_32.Data {
 
         public DbSet<Booking> Bookings { get; set; }
 
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
-            base.OnModelCreating(modelBuilder);
+         base.OnModelCreating(modelBuilder);
+     
 
             modelBuilder.Entity<IdentityUserLogin<string>>().HasKey(x => x.UserId);
 
@@ -35,8 +36,9 @@ namespace GBC_Travel_Group_32.Data {
             modelBuilder.Entity<Flight>().ToTable("Flights");
             modelBuilder.Entity<Hotel>().ToTable("Hotels");
             modelBuilder.Entity<CarRental>().ToTable("CarRentals");
-
             modelBuilder.Entity<Booking>().ToTable("Bookings");
+
+
         }
 
     }

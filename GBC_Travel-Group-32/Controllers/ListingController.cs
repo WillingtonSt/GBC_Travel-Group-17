@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using GBC_Travel_Group_32.Migrations;
 using Listing = GBC_Travel_Group_32.Models.Listing;
 using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
 
 
 
@@ -75,13 +76,13 @@ namespace GBC_Travel_Group_32.Controllers {
                 return NotFound();            }
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create() {
             return View();
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Listing listing, string listingType, DateTime flightDate, int maxPassengers, string location, string destination, DateTime startPeriod, DateTime endPeriod, int rooms, string manufacturer, string model) {
@@ -122,7 +123,7 @@ namespace GBC_Travel_Group_32.Controllers {
 
 
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateFlight(Listing listing, DateTime flightDate, int maxPassengers, string location, string destination) {
@@ -160,7 +161,7 @@ namespace GBC_Travel_Group_32.Controllers {
         }
 
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateHotel(Listing listing, DateTime startPeriod, DateTime endPeriod, int rooms) {
@@ -195,7 +196,7 @@ namespace GBC_Travel_Group_32.Controllers {
             return View(nameof(Create));
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateCarRental(Listing listing, string manufacturer, string model) {
@@ -229,7 +230,7 @@ namespace GBC_Travel_Group_32.Controllers {
             return View(nameof(Create));
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(int id) {
 
@@ -263,7 +264,7 @@ namespace GBC_Travel_Group_32.Controllers {
         }
 
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditFlight(Flight flight) {
@@ -320,7 +321,7 @@ namespace GBC_Travel_Group_32.Controllers {
             
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditHotel(Hotel hotel) {
@@ -376,6 +377,7 @@ namespace GBC_Travel_Group_32.Controllers {
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditCarRental(CarRental car) {
@@ -421,7 +423,7 @@ namespace GBC_Travel_Group_32.Controllers {
 
 
 
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Delete(int id) {
 
@@ -434,6 +436,7 @@ namespace GBC_Travel_Group_32.Controllers {
             return View(listing);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id) {

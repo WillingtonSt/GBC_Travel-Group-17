@@ -15,7 +15,7 @@ namespace GBC_Travel_Group_32.Controllers {
             _signInManager = signInManager;
         }
 
-        [HttpGet]
+      /*  [HttpGet]
         public IActionResult Login() {
             return View();
         }
@@ -78,6 +78,6 @@ namespace GBC_Travel_Group_32.Controllers {
             return View(user);
         }
 
-        
+     */   
     }
 }
