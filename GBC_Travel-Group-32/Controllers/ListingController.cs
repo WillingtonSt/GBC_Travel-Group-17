@@ -590,10 +590,28 @@ namespace GBC_Travel_Group_32.Controllers {
                 }
 
             }
-            
+
+            string[][] listingsArray = new string[matchingListings.Count][]; 
+
+            for (int i = 0; i < matchingListings.Count; i++) {
+                Listing listing = matchingListings[i];
+
+                string[] listingProperties = [
+
+                    listing.ListingId.ToString(),
+                    listing.Name,
+                    listing.ImageUrl,
+                    listing.Price.ToString()
+                ];
+
+                listingsArray[i] = listingProperties; 
+            }
 
 
-            return View("SearchResults", matchingListings);
+
+
+            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+            return Json(new { success = true, data = listingsArray, error = errors});
         }
 
 

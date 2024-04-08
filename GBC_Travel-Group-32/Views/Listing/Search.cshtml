@@ -31,7 +31,7 @@
 
 <section class="about-2 section bg-gray center" id="about">
     <div class="contact-form col-md-6 searchBar">
-<form asp-action="SearchResults" id="searchForm" method="get">
+<form  id="searchForm" method="get">
     <div class="form-group">
         
         <input type="text" class="form-control" id="searchTerm" name="searchTerm" placeholder="Search">
@@ -55,4 +55,22 @@
 </form>
 
 </div>
+
+
+
+
 </section>
+
+
+<div id="searchResults">
+    <!-- search results loaded here -->
+
+    
+
+
+</div>
+
+        @section Scripts {
+            <script src="~/js/searchResults.js"></script>
+        
+        }
