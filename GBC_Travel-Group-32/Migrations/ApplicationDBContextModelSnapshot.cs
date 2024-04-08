@@ -90,6 +90,36 @@ namespace GBC_Travel_Group_32.Migrations
                     b.UseTptMappingStrategy();
                 });
 
+            modelBuilder.Entity("GBC_Travel_Group_32.Models.ListingReview", b =>
+                {
+                    b.Property<int>("ListingReviewId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ListingReviewId"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("DatePosted")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ListingId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ListingReviewId");
+
+                    b.HasIndex("ListingId");
+
+                    b.ToTable("ListingReviews");
+                });
+
             modelBuilder.Entity("GBC_Travel_Group_32.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -363,6 +393,17 @@ namespace GBC_Travel_Group_32.Migrations
                         .IsRequired();
 
                     b.Navigation("listing");
+                });
+
+            modelBuilder.Entity("GBC_Travel_Group_32.Models.ListingReview", b =>
+                {
+                    b.HasOne("GBC_Travel_Group_32.Models.Listing", "Listing")
+                        .WithMany()
+                        .HasForeignKey("ListingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Listing");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

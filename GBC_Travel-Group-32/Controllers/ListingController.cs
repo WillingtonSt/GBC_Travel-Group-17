@@ -521,7 +521,7 @@ namespace GBC_Travel_Group_32.Controllers {
 
 
             if (!string.IsNullOrEmpty(searchTerm)) {
-                var filteredListings = listings.Where(l => l.ListingName.Contains(searchTerm) || l.ListingDesc.Contains(searchTerm));
+                var filteredListings =  listings.Where(l => l.ListingName.Contains(searchTerm) || l.ListingDesc.Contains(searchTerm));
             }
 
             if (filters != null) {
@@ -582,7 +582,7 @@ namespace GBC_Travel_Group_32.Controllers {
 
             foreach (var  listingId in uniqueListingIds) {
 
-                var matchingLIsting = _context.Listings.FirstOrDefault(listing => listing.ListingId == listingId);
+                var matchingLIsting =   _context.Listings.FirstOrDefault(listing => listing.ListingId == listingId);
 
                 if (matchingLIsting != null) {
 

@@ -120,4 +120,34 @@
         }
     </div>
 
+
+
+    <div id="listingReviews">
+        <hr />
+        <h3>Reviews</h3>
+        <div id="reviewList" class="reviews-container">
+            <!-- load reviews here-->
+        </div>
+       
+        @if (User.Identity.IsAuthenticated) {
+            <form id="addReviewForm" class="mt-3">
+                <input type="hidden" name="ListingId" value="@Model.ListingId" />
+                <input type="hidden" name="UserId" value="@Model.UserId" />
+                <div class="form-group">
+                    <textarea name="Content" class="form-control" placeholder="Add a review ..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Post Review</button>
+            </form>
+        }
+    </div>
+
     </section>
+
+   
+        
+  
+
+            @section Scripts {
+                <script src="~/js/listingReview.js"></script>
+
+            }

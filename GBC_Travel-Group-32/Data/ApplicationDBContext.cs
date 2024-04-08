@@ -24,6 +24,8 @@ namespace GBC_Travel_Group_32.Data {
 
         public DbSet<Booking> Bookings { get; set; }
 
+        public DbSet<ListingReview> ListingReviews { get; set; }
+
         
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 

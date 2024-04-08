@@ -20,3 +20,13 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.review {
+
+    color: black !important;
+  
+}
+
+.reviewBox {
+   margin: 15px;
+}
