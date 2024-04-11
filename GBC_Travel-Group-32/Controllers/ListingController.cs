@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 
 
 namespace GBC_Travel_Group_32.Controllers {
+
+    [Route("[controller]/[action]")]
     public class ListingController : Controller {
 
         private readonly ApplicationDBContext _context;
@@ -26,7 +28,7 @@ namespace GBC_Travel_Group_32.Controllers {
 
 
       
-        [HttpGet]
+        [HttpGet("")]
         public IActionResult Index() {
 
             var listings = _context.Listings.ToList();
@@ -35,7 +37,7 @@ namespace GBC_Travel_Group_32.Controllers {
             return View(listings);
         }
 
-        [HttpGet]
+        [HttpGet("UserListing/{id}")]
         public IActionResult UserListing(string id) {
 
             var listings = _context.Listings.Where(l => l.UserId == id).ToList();
@@ -45,7 +47,7 @@ namespace GBC_Travel_Group_32.Controllers {
         }
 
 
-        [HttpGet]
+        [HttpGet("Details/{id:int}")]
         public IActionResult Details(int id) {
 
             if (_context.Flights.Find(id) != null) {
@@ -77,13 +79,13 @@ namespace GBC_Travel_Group_32.Controllers {
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet]
+        [HttpGet("Create")]
         public IActionResult Create() {
             return View();
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost]
+        [HttpPost("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Listing listing, string listingType, DateTime flightDate, int maxPassengers, string location, string destination, DateTime startPeriod, DateTime endPeriod, int rooms, string manufacturer, string model) {
 
@@ -124,7 +126,7 @@ namespace GBC_Travel_Group_32.Controllers {
 
 
         [Authorize(Roles = "Admin")]
-        [HttpPost]
+        [HttpPost("CreateFlight")]
         [ValidateAntiForgeryToken]
         public IActionResult CreateFlight(Listing listing, DateTime flightDate, int maxPassengers, string location, string destination) {
 
@@ -162,7 +164,7 @@ namespace GBC_Travel_Group_32.Controllers {
 
 
         [Authorize(Roles = "Admin")]
-        [HttpPost]
+        [HttpPost("CreateHotel")]
         [ValidateAntiForgeryToken]
         public IActionResult CreateHotel(Listing listing, DateTime startPeriod, DateTime endPeriod, int rooms) {
 
@@ -197,7 +199,7 @@ namespace GBC_Travel_Group_32.Controllers {
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost]
+        [HttpPost("CreateCarRental")]
         [ValidateAntiForgeryToken]
         public IActionResult CreateCarRental(Listing listing, string manufacturer, string model) {
 
@@ -231,7 +233,7 @@ namespace GBC_Travel_Group_32.Controllers {
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet]
+        [HttpGet("Edit/{id}")]
         public IActionResult Edit(int id) {
 
             if (_context.Flights.Find(id) != null) {
@@ -265,7 +267,7 @@ namespace GBC_Travel_Group_32.Controllers {
 
 
         [Authorize(Roles = "Admin")]
-        [HttpPost]
+        [HttpPost("EditFlight")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditFlight(Flight flight) {
 
@@ -322,7 +324,7 @@ namespace GBC_Travel_Group_32.Controllers {
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost]
+        [HttpPost("EditHotel")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditHotel(Hotel hotel) {
 
@@ -378,7 +380,7 @@ namespace GBC_Travel_Group_32.Controllers {
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost]
+        [HttpPost("EditCarRental")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditCarRental(CarRental car) {
 
@@ -424,7 +426,7 @@ namespace GBC_Travel_Group_32.Controllers {
 
 
         [Authorize(Roles = "Admin")]
-        [HttpGet]
+        [HttpGet("Delete/{id}")]
         public IActionResult Delete(int id) {
 
             var listing = _context.Listings.FirstOrDefault(p => p.ListingId == id);
@@ -437,7 +439,7 @@ namespace GBC_Travel_Group_32.Controllers {
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost, ActionName("DeleteConfirmed")]
+        [HttpPost("DeleteConfirmed/{id}"), ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id) {
 
@@ -495,7 +497,7 @@ namespace GBC_Travel_Group_32.Controllers {
 
 
 
-        [HttpGet]
+        [HttpGet("Search/{searchTerm?}")]
         public IActionResult SearchResults(string searchTerm, FilterViewModel filters) {
 
 

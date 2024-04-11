@@ -1,16 +1,20 @@
 using GBC_Travel_Group_32.Models;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
+using Serilog.Context;
 using System.Diagnostics;
 
 namespace GBC_Travel_Group_32.Controllers {
     public class HomeController : Controller {
-        private readonly ILogger<HomeController> _logger;
+      
 
-        public HomeController(ILogger<HomeController> logger) {
-            _logger = logger;
+        public HomeController() {
+           
         }
 
         public IActionResult Index() {
+
+           
             return View();
         }
 
@@ -22,5 +26,10 @@ namespace GBC_Travel_Group_32.Controllers {
         public IActionResult Error() {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+
     }
+
+   
 }

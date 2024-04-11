@@ -8,6 +8,8 @@ using User = GBC_Travel_Group_32.Models.User;
 
 
 namespace GBC_Travel_Group_32.Controllers {
+
+    [Route("[controller]/[action]")]
     public class BookingController : Controller {
 
         private readonly ApplicationDBContext _context;
@@ -20,7 +22,7 @@ namespace GBC_Travel_Group_32.Controllers {
         }
 
 
-        [HttpGet]
+        [HttpGet("Index/{listingId}")]
         public IActionResult Index(int listingId) {
 
 
@@ -32,7 +34,7 @@ namespace GBC_Travel_Group_32.Controllers {
             return View(bookings);
         }
 
-        [HttpGet]
+        [HttpGet("UserBookings/{userId}")]
         public IActionResult UserBookings(string userId) {
 
 
@@ -53,7 +55,7 @@ namespace GBC_Travel_Group_32.Controllers {
         }
 
 
-        [HttpGet]
+        [HttpGet("Details/{id}")]
         public IActionResult Details(int id) {
 
             var booking = _context.Bookings.Find(id);
@@ -74,7 +76,7 @@ namespace GBC_Travel_Group_32.Controllers {
         }
 
 
-        [HttpGet]
+        [HttpGet("Create/{listingId}")]
         public IActionResult Create(int listingId) {
 
             var listing = _context.Listings.Find(listingId);
@@ -97,7 +99,7 @@ namespace GBC_Travel_Group_32.Controllers {
             return View(booking);
         }
 
-        [HttpPost]
+        [HttpPost("Create")]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("ListingId", "UserId", "Email", "BookingDate", "BookingEndDate")]Booking booking) {
 
@@ -155,7 +157,7 @@ namespace GBC_Travel_Group_32.Controllers {
         }
 
 
-        [HttpGet]
+        [HttpGet("Delete/{id:int}")]
         public IActionResult Delete(int id) {
 
             var booking = _context.Bookings
@@ -173,7 +175,7 @@ namespace GBC_Travel_Group_32.Controllers {
 
         }
 
-        [HttpPost, ActionName("DeleteConfirmed")]
+        [HttpPost("DeleteConfirmed"), ActionName("DeleteConfirmed")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int bookingId) {
 
