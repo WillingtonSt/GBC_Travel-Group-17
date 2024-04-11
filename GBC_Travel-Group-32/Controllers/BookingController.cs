@@ -34,7 +34,7 @@ namespace GBC_Travel_Group_32.Controllers {
             return View(bookings);
         }
 
-        [HttpGet("UserBookings/{userId}")]
+        [HttpGet("UserBookings")]
         public IActionResult UserBookings(string userId) {
 
 
@@ -76,10 +76,10 @@ namespace GBC_Travel_Group_32.Controllers {
         }
 
 
-        [HttpGet("Create/{listingId}")]
-        public IActionResult Create(int listingId) {
+        [HttpGet("Create")]
+        public async Task<IActionResult> Create(int listingId) {
 
-            var listing = _context.Listings.Find(listingId);
+            var listing = await _context.Listings.FindAsync(listingId);
             if(listing == null) {
                 return NotFound();
             }
@@ -101,12 +101,12 @@ namespace GBC_Travel_Group_32.Controllers {
 
         [HttpPost("Create")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("ListingId", "UserId", "Email", "BookingDate", "BookingEndDate")]Booking booking) {
+        public async Task<IActionResult> Create([Bind("ListingId", "UserId", "Email", "BookingDate", "BookingEndDate")]Booking booking) {
 
 
-            var flightListing = _context.Flights.Find(booking.ListingId);
-            var hotelListing = _context.Hotels.Find(booking.ListingId);
-            var carListing = _context.CarRentals.Find(booking.ListingId);
+            var flightListing = await _context.Flights.FindAsync(booking.ListingId);
+            var hotelListing = await _context.Hotels.FindAsync(booking.ListingId);
+            var carListing = await _context.CarRentals.FindAsync(booking.ListingId);
             
 
             if(ModelState.IsValid) {
@@ -145,8 +145,8 @@ namespace GBC_Travel_Group_32.Controllers {
 
                 
 
-                _context.Bookings.Add(booking);
-                _context.SaveChanges();
+               await _context.Bookings.AddAsync(booking);
+               await _context.SaveChangesAsync();
                 return View(nameof(Details), booking);
             }
 

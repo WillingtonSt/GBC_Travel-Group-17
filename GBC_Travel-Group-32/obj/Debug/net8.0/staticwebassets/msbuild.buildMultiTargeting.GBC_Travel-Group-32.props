@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\GBC_Travel-Group-32.props" />
-</Project>

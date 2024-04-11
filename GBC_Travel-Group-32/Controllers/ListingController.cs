@@ -497,7 +497,7 @@ namespace GBC_Travel_Group_32.Controllers {
 
 
 
-        [HttpGet("Search/{searchTerm?}")]
+        [HttpGet]
         public IActionResult SearchResults(string searchTerm, FilterViewModel filters) {
 
 

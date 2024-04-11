@@ -15,7 +15,7 @@ namespace GBC_Travel_Group_32.Controllers {
         public ListingReviewController(ApplicationDBContext context) {
             _context = context;
         }
-        [HttpGet("GetReviews/{listingId}")]
+        [HttpGet]
         public async Task<IActionResult> GetReviews(int listingId) {
 
             var listings = await _context.ListingReviews
@@ -29,7 +29,7 @@ namespace GBC_Travel_Group_32.Controllers {
         }
 
         [Authorize]
-        [HttpPost("AddReview")]
+        [HttpPost]
         public async Task<IActionResult> AddReview([FromBody] ListingReview review) {
             
 
