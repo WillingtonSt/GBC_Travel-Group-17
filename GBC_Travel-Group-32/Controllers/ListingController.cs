@@ -87,7 +87,8 @@ namespace GBC_Travel_Group_32.Controllers {
         [Authorize(Roles = "Admin")]
         [HttpPost("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Listing listing, string listingType, DateTime flightDate, int maxPassengers, string location, string destination, DateTime startPeriod, DateTime endPeriod, int rooms, string manufacturer, string model) {
+        public async Task<IActionResult> Create(Listing listing, string listingType, DateTime flightDate, int maxPassengers, string location, 
+            string destination, DateTime startPeriod, DateTime endPeriod, int rooms, string manufacturer, string model) {
 
             
 
@@ -146,18 +147,21 @@ namespace GBC_Travel_Group_32.Controllers {
 
             };
 
+            if (flight != null) {
 
-            ModelState.Clear();
-            TryValidateModel(flight);
 
-            if(ModelState.IsValid) {
-                _context.Listings.Add(flight);
-                _context.Flights.Add(flight);
-                _context.SaveChanges();
-                return View(nameof(Details), flight);
+
+                ModelState.Clear();
+                TryValidateModel(flight);
+
+                if (ModelState.IsValid) {
+                    _context.Listings.Add(flight);
+                    _context.Flights.Add(flight);
+                    _context.SaveChanges();
+                    return View(nameof(Details), flight);
+                }
+
             }
-
-
 
             return View(nameof(Create));
         }

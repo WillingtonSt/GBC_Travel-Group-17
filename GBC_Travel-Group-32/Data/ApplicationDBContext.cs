@@ -4,12 +4,21 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
 namespace GBC_Travel_Group_32.Data {
-    public class ApplicationDBContext  : IdentityDbContext<User> {
+    public class ApplicationDBContext : IdentityDbContext<User> {
+
+        public ApplicationDBContext() : base() {
 
 
-        
 
-        public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options) {
+        }
+    
+
+
+   
+
+
+
+    public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options) {
 
           
         }
