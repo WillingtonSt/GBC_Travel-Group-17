@@ -10,23 +10,25 @@ namespace GBC_Travel_Group_32.Logging {
         }
 
 
-        public async Task Invoke(HttpContext context) {
+        public async Task InvokeAsync(HttpContext context) {
 
            
 
             try {
+              
                 await _next(context);
             }
 
             catch (Exception ex) {
 
-                Log.Error(ex, "An error occurred: {ErrorMessage}\n{StackTrace}", ex.Message, ex.StackTrace);
+             
 
-                Log.Error("User: {UserId}", context.User.Identity?.Name);
+                Log.Error("{Message} An error occurred: {ErrorMessage}\n{StackTrace}", "[Error Middleware]", ex.Message, ex.StackTrace);
 
-                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                await context.Response.WriteAsync(ex.Message);
+                Log.Error("{Message} User: {UserId}", "[Error Middleware]", context.User.Identity?.Name);
 
+                throw;
+               
             }
 
         }

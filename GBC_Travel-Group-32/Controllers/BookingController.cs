@@ -1,14 +1,17 @@
 ﻿using GBC_Travel_Group_32.Data;
+using GBC_Travel_Group_32.Logging;
 using GBC_Travel_Group_32.Migrations;
 using GBC_Travel_Group_32.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Listing = GBC_Travel_Group_32.Models.Listing;
 using User = GBC_Travel_Group_32.Models.User;
 
 
 namespace GBC_Travel_Group_32.Controllers {
 
+    [ServiceFilter(typeof(LoggingFilter))]
     [Route("[controller]/[action]")]
     public class BookingController : Controller {
 
@@ -23,12 +26,17 @@ namespace GBC_Travel_Group_32.Controllers {
 
 
         [HttpGet("Index/{listingId}")]
-        public IActionResult Index(int listingId) {
+        public async Task<IActionResult> Index(int listingId) {
 
 
-            var bookings = _context.Bookings.Where(b => b.ListingId == listingId).ToList();
+            var bookings = await _context.Bookings.Where(b => b.ListingId == listingId).ToListAsync();
            
-
+            foreach (Booking booking in bookings) {
+                var listing = await _context.Listings.FindAsync(booking.ListingId);
+                if (listing != null) {
+                    booking.listing = listing;
+                }
+            }
     
 
             return View(bookings);

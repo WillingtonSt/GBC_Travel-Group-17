@@ -1,4 +1,5 @@
 ﻿using GBC_Travel_Group_32.Data;
+using GBC_Travel_Group_32.Logging;
 using GBC_Travel_Group_32.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace GBC_Travel_Group_32.Controllers {
+
+    [ServiceFilter(typeof(LoggingFilter))]
+    [Authorize]
     public class ListingReviewController : Controller {
 
 

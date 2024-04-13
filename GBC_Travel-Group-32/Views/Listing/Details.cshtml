@@ -113,10 +113,13 @@
     <div class="mt-10 center" style="display: flex; justify-content:space-evenly; width: 50%" >
         <a asp-controller="Booking" asp-action="Create" asp-route-listingId="@Model.ListingId" class="btn btn-primary">Create Booking</a>
         <a asp-controller="Listing" asp-action="Index" class="btn btn-secondary">All Listings</a>
-        @if (User.Identity.IsAuthenticated && UserManager.GetUserId(User) == Model.UserId)
+        @if (User.Identity.IsAuthenticated && UserManager.GetUserId(User) == Model.UserId || User.IsInRole("Admin"))
         {
             <a asp-controller="Listing" asp-action="Edit" asp-route-id="@Model.ListingId" class="btn btn-outline-success">Edit</a>
             <a asp-controller="Listing" asp-action="Delete" asp-route-id="@Model.ListingId" class="btn btn-danger">Delete</a>
+        }
+        @if (User.IsInRole("Admin")) {
+            <a asp-controller="Booking" asp-action="Index" asp-route-listingId="@Model.ListingId" class="btn btn-primary">View Booking</a>
         }
     </div>
 

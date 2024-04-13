@@ -10,6 +10,7 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pag
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 using Serilog;
 using Serilog.Filters;
+using System.Net;
 
 
 
@@ -19,8 +20,13 @@ try {
 
     var builder = WebApplication.CreateBuilder(args);
 
-  
+    Log.Logger = new LoggerConfiguration()
+          .MinimumLevel.Information()
+          .Filter.ByIncludingOnly(logEvent => logEvent.Properties.ContainsKey("Message"))
+          .WriteTo.Console()
+          .CreateLogger();
 
+    builder.Services.AddSerilog();
 
     builder.Services.AddDbContext<ApplicationDBContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -41,46 +47,86 @@ try {
 
     builder.Services.AddScoped<Listing>();
 
-
-   
+    builder.Services.AddTransient<LoggingFilter>();
+  
 
     builder.Services.AddControllersWithViews();
     builder.Services.AddRazorPages();
 
-    builder.Services.AddSerilog();
+   
 
+ 
     
-
-    Log.Logger = new LoggerConfiguration()
-        .ReadFrom.Configuration(builder.Configuration)
-        .CreateLogger();
-
-    ;
 
     var app = builder.Build();
+
     
-
-
-
-    // Configure the HTTP request pipeline.
-    if (!app.Environment.IsDevelopment()) {
-        app.UseExceptionHandler("/Home/Error");
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        app.UseStatusCodePagesWithReExecute("/Home/StatusCode", "?code={0}");
-        app.UseHsts();
-    }
-    app.UseMiddleware<ErrorLogging>();
     app.UseHttpsRedirection();
     app.UseStaticFiles();
 
     app.UseRouting();
+  
+    app.UseAuthorization();
+
+   
+    app.UseMiddleware<RequestLogging>();
+
+    app.UseExceptionHandler(errorApp => {
+
+     
+
+        errorApp.Run(async context => {
+
+
+            context.Response.Redirect($"/error/{context.Response.StatusCode}");
+
+            
+
+
+        });
+
+    });
+
+
+    app.UseMiddleware<ErrorLogging>();
+
+
+    app.UseStatusCodePages(async context => {
+
+       
+
+        if (context.HttpContext.Response.StatusCode == 404) {
+            context.HttpContext.Response.Redirect("/error/404");
+        }
+        else if (context.HttpContext.Response.StatusCode == 500) {
+            context.HttpContext.Response.Redirect("/error/500");
+        } else {
+            context.HttpContext.Response.Redirect($"/error/{context.HttpContext.Response.StatusCode}");
+        }
+    });
+
+    
+
+  
+
+
+    app.UseHsts();
+
+
+   
+
+
+
+
+
+
 
     app.UseAuthentication();
-    app.UseAuthorization();
+   
 
     app.MapRazorPages();
 
-    app.UseMiddleware<RequestLogging>();
+   
    
 
     app.MapControllerRoute(
@@ -143,7 +189,7 @@ try {
 
 
 
-    app.Run();
+   app.Run();
 
 }
 catch (Exception ex) 

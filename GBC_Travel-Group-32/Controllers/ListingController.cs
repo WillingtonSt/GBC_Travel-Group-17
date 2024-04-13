@@ -6,12 +6,14 @@ using GBC_Travel_Group_32.Migrations;
 using Listing = GBC_Travel_Group_32.Models.Listing;
 using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
+using GBC_Travel_Group_32.Logging;
 
 
 
 
 namespace GBC_Travel_Group_32.Controllers {
 
+    [ServiceFilter(typeof(LoggingFilter))]
     [Route("[controller]/[action]")]
     public class ListingController : Controller {
 

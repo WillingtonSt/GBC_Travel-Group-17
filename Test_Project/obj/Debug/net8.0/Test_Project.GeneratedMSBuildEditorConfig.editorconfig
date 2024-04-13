@@ -16,6 +16,6 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Test_Project
-build_property.ProjectDir = C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\
+build_property.ProjectDir = C:\Users\joeba\Source\Repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

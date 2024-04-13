@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Unexpected Error";
+}
+
+<section class="single-page-header">
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Unexpected Error</h2>
+
+                <nav aria-label="breadcrumb mx-auto" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Error
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="mb-4 listingCreate">
+
+    <h1>Error: @ViewBag.Code</h1>
+    <h2>An Unexpected Error has occurred!</h2>
+
+
+
+
+</section>
