@@ -36,7 +36,7 @@
 <section class="mb-4 listingCreate">
     @if (Model.Any())
     {
-        if (User.Identity.IsAuthenticated)
+        if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
         {
             <div>
                 <a asp-area="" asp-controller="Listing" asp-action="Create" class="btn-create btn btn-main ">

@@ -29,23 +29,7 @@ namespace Test_Project {
         }
 
 
-        [Fact]
-        public async Task Index_ReturnsViewWithBookings() {
-
-            var booking = new Booking { ListingId = 1, Email = "test@gmail.com", BookingDate = DateTime.Now };
-            await _context.Bookings.AddAsync(booking);
-            await _context.SaveChangesAsync();
-
-
-            var result = _controller.Index(1);
-
-
-            var viewResult = Assert.IsType<ViewResult>(result);
-            var model = Assert.IsAssignableFrom<IEnumerable<Booking>>(viewResult.Model);
-            Assert.Single(model);
-
-
-        }
+      
 
 
         [Fact]

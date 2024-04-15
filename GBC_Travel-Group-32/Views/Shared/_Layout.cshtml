@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SigninManager;
 @inject UserManager<User> UserManager
 
 <!DOCTYPE html>
@@ -35,7 +36,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" asp-controller="Listing" asp-action="Index">Listings</a>
                                 </li>
-                                @if(User.Identity.IsAuthenticated && User.IsInRole("Admin")) {
+                                @if(User.IsInRole("Admin")) {
                                     <li class="nav-item">
                                         <a class="nav-link" asp-area="Identity" asp-page="/Account/Logout">Logout</a>
                                     </li>
@@ -48,7 +49,7 @@
                                     <li class="nav-item">
                                         <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index">Profile</a>
                                     </li>
-                                } else if (User.Identity.IsAuthenticated)
+                                } else if (SigninManager.IsSignedIn(User))
                                 {
                                     <li class="nav-item">
                                         <a class="nav-link" asp-area="Identity" asp-page="/Account/Logout">Logout</a>

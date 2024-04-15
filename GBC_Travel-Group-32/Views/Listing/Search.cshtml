@@ -1,4 +1,4 @@
-﻿@model FilterViewModel
+﻿
 
 @{
     ViewData["Title"] = "Search";
@@ -39,15 +39,15 @@
 
    
     <div class="form-group mt-10" id="selectedFilter">
-        <label asp-for="Available"><input asp-for="Available" type="checkbox" />Available</label>
-        <label asp-for="Unavailable"><input type="checkbox" asp-for="Unavailable" />Unavailable</label>
-        <label asp-for="FlightDate"><input type="checkbox" asp-for="FlightDate" />FlightDate</label>
-        <label asp-for="Location"><input type="checkbox" asp-for="Location" />Location</label>
-        <label asp-for="Destination"><input type="checkbox" asp-for="Destination" />Destination</label>
-        <label asp-for="Model"><input type="checkbox" asp-for="Model" />Model</label>
-        <label asp-for="Manufacturer"><input type="checkbox" asp-for="Manufacturer" />Manufacturer</label>
-        <label asp-for="MinPrice"><input type="checkbox" asp-for="MinPrice" />Minimum Price</label>
-        <label asp-for="MaxPrice"><input type="checkbox" asp-for="MaxPrice" />Maximum Price</label>
+        <label><input type="checkbox" id="available"/>Available</label>
+        <label><input type="checkbox" id="unavailable"/>Unavailable</label>
+        <label><input type="checkbox" id="flightDate"/>FlightDate</label>
+        <label><input type="checkbox" id="location"/>Location</label>
+        <label><input type="checkbox" id="destination"/>Destination</label>
+        <label><input type="checkbox" id="model"/>Model</label>
+        <label><input type="checkbox" id="manufacturer"/>Manufacturer</label>
+        <label><input type="checkbox" id="minPrice"/>Minimum Price</label>
+        <label><input type="checkbox" id="maxPrice"/>Maximum Price</label>
     </div>
     <div class="center mt-10">
     <button type="submit" class="btn btn-primary">Search</button>

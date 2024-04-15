@@ -457,6 +457,10 @@
       "PackagePath": "staticwebassets\\uploads\\default.jpg"
     },
     {
+      "Id": "C:\\Users\\joeba\\source\\repos\\WillingtonSt\\GBC_Travel-Group-32\\GBC_Travel-Group-32\\wwwroot\\uploads\\e7e845a3-9db2-4f05-be27-63c9ea96a653_JonArbuckle.png",
+      "PackagePath": "staticwebassets\\uploads\\e7e845a3-9db2-4f05-be27-63c9ea96a653_JonArbuckle.png"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.GBC_Travel-Group-32.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

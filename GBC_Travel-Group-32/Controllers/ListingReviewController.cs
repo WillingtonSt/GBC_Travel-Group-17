@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 namespace GBC_Travel_Group_32.Controllers {
 
     [ServiceFilter(typeof(LoggingFilter))]
-    [Authorize]
     public class ListingReviewController : Controller {
 
 
@@ -32,7 +31,9 @@ namespace GBC_Travel_Group_32.Controllers {
 
         }
 
-        [Authorize]
+
+
+        [Authorize(Roles = "Traveler, Admin")]
         [HttpPost]
         public async Task<IActionResult> AddReview([FromBody] ListingReview review) {
             

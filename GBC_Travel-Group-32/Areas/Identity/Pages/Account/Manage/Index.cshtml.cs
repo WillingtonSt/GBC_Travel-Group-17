@@ -161,7 +161,7 @@ namespace GBC_Travel_Group_32.Areas.Identity.Pages.Account.Manage
 
             if(Input.Username != user.UserName) {
 
-                var userNameExists = await _userManager.FindByNameAsync(user.UserName);
+                var userNameExists = await _userManager.FindByNameAsync(Input.Username);
                 if (userNameExists != null) {
                     StatusMessage = "Error: username not available. Please enter a new username";
                     return RedirectToPage();
@@ -209,7 +209,7 @@ namespace GBC_Travel_Group_32.Areas.Identity.Pages.Account.Manage
 
                 IFormFile file = Request.Form.Files.FirstOrDefault();
                 using (var dataStream = new MemoryStream()) {
-                    file.CopyToAsync(dataStream);
+                  await file.CopyToAsync(dataStream);
                     user.ProfilePicture = dataStream.ToArray();
                 }
                 await _userManager.UpdateAsync(user);

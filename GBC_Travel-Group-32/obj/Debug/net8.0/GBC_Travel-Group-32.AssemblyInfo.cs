@@ -12,10 +12,11 @@ using System;
 using System.Reflection;
 
 [assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("ca5f138f-25be-4575-8623-7dd6482e7444")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("GBC_Travel-Group-32")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+96473f66527ed6a80bd05524439056dd91b5ceeb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dfa4549c6719b6d16ecd55af18543bc4cba5a7be")]
 [assembly: System.Reflection.AssemblyProductAttribute("GBC_Travel-Group-32")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GBC_Travel-Group-32")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

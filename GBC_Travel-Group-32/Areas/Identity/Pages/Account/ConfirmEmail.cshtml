@@ -4,5 +4,34 @@
     ViewData["Title"] = "Confirm email";
 }
 
-<h1>@ViewData["Title"]</h1>
+<section class="single-page-header">
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Confirm Email</h2>
+
+                <nav aria-label="breadcrumb mx-auto" role="navigation">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Listing" asp-action="Index">Confirm Email</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Confirm Email
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="contact-us section bg-gray" id="contact" style="display: flex; justify-content: center; flex-direction: column; align-items: center">
+
+
 <partial name="_StatusMessage" model="Model.StatusMessage" />
+
+</section>

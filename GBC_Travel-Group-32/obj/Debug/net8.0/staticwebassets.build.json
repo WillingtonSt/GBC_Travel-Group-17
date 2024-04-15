@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "P0Tw+tuPmlswnRBL2Etbe6OMDPZR3+/eln0gObflAx4=",
+  "Hash": "EzF/8UyJT4upFOGY3ehp3Ega9BKUi2q3Rw1vrgXnvfU=",
   "Source": "GBC_Travel-Group-32",
   "BasePath": "_content/GBC_Travel-Group-32",
   "Mode": "Default",
@@ -3378,6 +3378,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\default.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\joeba\\source\\repos\\WillingtonSt\\GBC_Travel-Group-32\\GBC_Travel-Group-32\\wwwroot\\uploads\\e7e845a3-9db2-4f05-be27-63c9ea96a653_JonArbuckle.png",
+      "SourceId": "GBC_Travel-Group-32",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\joeba\\source\\repos\\WillingtonSt\\GBC_Travel-Group-32\\GBC_Travel-Group-32\\wwwroot\\",
+      "BasePath": "_content/GBC_Travel-Group-32",
+      "RelativePath": "uploads/e7e845a3-9db2-4f05-be27-63c9ea96a653_JonArbuckle.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\e7e845a3-9db2-4f05-be27-63c9ea96a653_JonArbuckle.png"
     }
   ]
 }

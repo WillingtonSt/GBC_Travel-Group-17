@@ -15,20 +15,20 @@ namespace GBC_Travel_Group_32.Migrations
                 table: "AspNetUsers",
                 type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: ""); ;
 
             migrationBuilder.AddColumn<string>(
                 name: "FrequentFlyerNumber",
                 table: "AspNetUsers",
                 type: "nvarchar(max)",
-                nullable: false,
+                nullable: true,
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
                 name: "HotelLoyaltyID",
                 table: "AspNetUsers",
                 type: "nvarchar(max)",
-                nullable: false,
+                nullable: true,
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(

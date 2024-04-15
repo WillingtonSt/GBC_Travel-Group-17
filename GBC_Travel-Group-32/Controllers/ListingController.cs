@@ -7,6 +7,11 @@ using Listing = GBC_Travel_Group_32.Models.Listing;
 using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using GBC_Travel_Group_32.Logging;
+using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Routing;
+using static NuGet.Packaging.PackagingConstants;
+using EllipticCurve.Utils;
 
 
 
@@ -503,123 +508,142 @@ namespace GBC_Travel_Group_32.Controllers {
 
 
 
-        [HttpGet]
-        public IActionResult SearchResults(string searchTerm, FilterViewModel filters) {
+        [HttpPost]
+        public IActionResult SearchResults([FromBody] FilterViewModel filter) {
+
+            var listingsFull = _context.Listings.ToList();
+
+        
+          
+
+            if (ModelState.IsValid && filter.SearchTerm != null) {
+
+               
+                var listings = from listing in _context.Listings
+                               join flight in _context.Flights on listing.ListingId equals flight.ListingId into flightGroup
+                               from flight in flightGroup.DefaultIfEmpty()
+                               join hotel in _context.Hotels on listing.ListingId equals hotel.ListingId into hotelGroup
+                               from hotel in hotelGroup.DefaultIfEmpty()
+                               join carRental in _context.CarRentals on listing.ListingId equals carRental.ListingId into carRentalGroup
+                               from carRental in carRentalGroup.DefaultIfEmpty()
+                               select new {
+                                   ListingId = listing.ListingId,
+                                   ListingName = listing.Name,
+                                   ListingDesc = listing.Description,
+                                   ListingAvailable = listing.Available,
+                                   FlightDate = flight.FlightDate,
+                                   FlightLocation = flight.Location,
+                                   FlightDestination = flight.Destination,
+                                   CarModel = carRental.Model,
+                                   CarManufacturer = carRental.Manufacturer,
+                                   ListingPrice = listing.Price
+                               };
 
 
-            var listings = from listing in _context.Listings
-                           join flight in _context.Flights on listing.ListingId equals flight.ListingId into flightGroup
-                           from flight in flightGroup.DefaultIfEmpty()
-                           join hotel in _context.Hotels on listing.ListingId equals hotel.ListingId into hotelGroup
-                           from hotel in hotelGroup.DefaultIfEmpty()
-                           join carRental in _context.CarRentals on listing.ListingId equals carRental.ListingId into carRentalGroup
-                           from carRental in carRentalGroup.DefaultIfEmpty()
-                           select new {
-                               ListingId = listing.ListingId,
-                               ListingName = listing.Name,
-                               ListingDesc = listing.Description,
-                               ListingAvailable = listing.Available,
-                               FlightDate = flight.FlightDate,
-                               FlightLocation = flight.Location,
-                               FlightDestination = flight.Destination,
-                               CarModel = carRental.Model,
-                               CarManufacturer = carRental.Manufacturer,
-                               ListingPrice = listing.Price
-                           };
+             
 
 
-            if (!string.IsNullOrEmpty(searchTerm)) {
-                var filteredListings =  listings.Where(l => l.ListingName.Contains(searchTerm) || l.ListingDesc.Contains(searchTerm));
+                    if (!string.IsNullOrEmpty(filter.SearchTerm)) {
+                        listings = listings.Where(l => l.ListingName.Contains(filter.SearchTerm) || l.ListingDesc.Contains(filter.SearchTerm));
+                    }
+
+               
+
+                    if (filter.Available) {
+                        listings = listings.Where(l => l.ListingAvailable);
+                    }
+
+                    if (filter.Unavailable) {
+
+                        listings = listings.Where(l => !l.ListingAvailable);
+                    }
+
+                    if (filter.FlightDate) {
+
+                        listings = listings.Where(l => l.FlightDate >= DateTime.Now);
+
+                    }
+
+                    if (filter.Location) {
+                        listings = listings.Where(l => l.FlightLocation.Contains(filter.SearchTerm));
+                    }
+
+                    if (filter.Destination) {
+
+                        listings = listings.Where(l => l.FlightDestination.Contains(filter.SearchTerm));
+                    }
+
+                    if (filter.Model) {
+
+                        listings = listings.Where(l => l.CarModel.Contains(filter.SearchTerm));
+                    }
+
+                    if (filter.Manufacturer) {
+
+                        listings = listings.Where(l => l.CarManufacturer.Contains(filter.SearchTerm));
+                    }
+
+                    if (filter.MinPrice && filter.SearchTerm != null) {
+
+                        float minPrice = float.Parse(filter.SearchTerm);
+                        listings = listings.Where(l => l.ListingPrice >= minPrice);
+                    }
+
+                    if (filter.MaxPrice && filter.SearchTerm != null) {
+
+                        float maxPrice = float.Parse(filter.SearchTerm);
+                        listings = listings.Where(l => l.ListingPrice <= maxPrice);
+                    }
+
+               
+
+                var uniqueListingIds = listings.Select(item => item.ListingId).Distinct();
+
+             
+              
+
+                List<Listing> matchingListings = new List<Listing>();
+
+
+
+                foreach (int listingId in uniqueListingIds) {
+
+
+
+
+
+                    Listing matchingListing = listingsFull.FirstOrDefault(l => l.ListingId == listingId); 
+
+                  
+
+                    if (matchingListing != null) {
+
+                        matchingListings.Add(matchingListing);
+                    }
+                  
+                }
+
+
+               
+
+
+                var error = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+                return Json(new { success = true, data = matchingListings, error = error });
+
+
             }
 
-            if (filters != null) {
 
-                if (filters.Available) {
-                    listings = listings.Where(l => l.ListingAvailable);
-                }  
-                
-                if (filters.Unavailable) {
+            if(filter.SearchTerm == null) {
 
-                    listings = listings.Where(l => !l.ListingAvailable);
-                }
-                
-                if (filters.FlightDate) {
-                      
-                    listings = listings.Where(l => l.FlightDate >= DateTime.Now);
-                        
-                }
-                
-                if(filters.Location) {
-                    listings = listings.Where(l => l.FlightLocation.Contains(searchTerm));
-
-                }
-                
-                if(filters.Destination) {
-
-                    listings = listings.Where(l => l.FlightDestination.Contains(searchTerm));
-                }
-
-                if (filters.Model) {
-
-                    listings = listings.Where(l => l.CarModel.Contains(searchTerm));
-                }
-
-                if (filters.Manufacturer) {
-
-                    listings = listings.Where(l => l.CarManufacturer.Contains(searchTerm));
-
-                }
-
-                if (filters.MinPrice && searchTerm != null) {
-
-                    float minPrice = float.Parse(searchTerm);
-                    listings = listings.Where(l => l.ListingPrice >= minPrice);
-                }
-                
-                if (filters.MaxPrice && searchTerm != null) {
-
-                    float maxPrice = float.Parse(searchTerm); 
-                    listings = listings.Where(l => l.ListingPrice <= maxPrice);
-                }        
+                return Json(new { success = false, message = "Input was null" });
 
             }
-
-            var uniqueListingIds = listings.Select(item => item.ListingId).Distinct();
-
-            List<Listing> matchingListings = new List<Listing>();
-
-            foreach (var  listingId in uniqueListingIds) {
-
-                var matchingLIsting =   _context.Listings.FirstOrDefault(listing => listing.ListingId == listingId);
-
-                if (matchingLIsting != null) {
-
-                    matchingListings.Add(matchingLIsting);
-                }
-
-            }
-
-            string[][] listingsArray = new string[matchingListings.Count][]; 
-
-            for (int i = 0; i < matchingListings.Count; i++) {
-                Listing listing = matchingListings[i];
-
-                string[] listingProperties = [
-
-                    listing.ListingId.ToString(),
-                    listing.Name,
-                    listing.ImageUrl,
-                    listing.Price.ToString()
-                ];
-
-                listingsArray[i] = listingProperties; 
-            }
-
-
 
 
             var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
-            return Json(new { success = true, data = listingsArray, error = errors});
+            return Json(new { success = false, message = "Invalid Data.", error = errors });
+
         }
 
 

@@ -1,5 +1,7 @@
 ﻿namespace GBC_Travel_Group_32.Models {
     public class FilterViewModel {
+        
+        public string? SearchTerm { get; set; }
         public bool Available { get; set; }
         public bool Unavailable { get; set; }
         public bool FlightDate { get; set; }

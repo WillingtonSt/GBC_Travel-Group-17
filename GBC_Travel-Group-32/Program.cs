@@ -20,25 +20,28 @@ try {
 
     var builder = WebApplication.CreateBuilder(args);
 
+
+
+
     Log.Logger = new LoggerConfiguration()
           .MinimumLevel.Information()
-          .Filter.ByIncludingOnly(logEvent => logEvent.Properties.ContainsKey("Message"))
+        .Filter.ByIncludingOnly(logEvent => logEvent.Properties.ContainsKey("Message"))
           .WriteTo.Console()
           .CreateLogger();
 
     builder.Services.AddSerilog();
-
+ 
     builder.Services.AddDbContext<ApplicationDBContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 
 
-    builder.Services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+    builder.Services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedEmail = true)
         .AddEntityFrameworkStores<ApplicationDBContext>()
-        .AddRoles<IdentityRole>()
         .AddDefaultUI()
         .AddDefaultTokenProviders();
+       
 
 
     builder.Services.AddSingleton<IEmailSender, EmailSender>();
@@ -60,16 +63,46 @@ try {
 
     var app = builder.Build();
 
-    
-    app.UseHttpsRedirection();
-    app.UseStaticFiles();
 
-    app.UseRouting();
-  
-    app.UseAuthorization();
+
+    using var scope = app.Services.CreateScope();
+    var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
+
+    try {
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+
+        await ContextSeed.SeedRolesAsync(userManager, roleManager);
+        await ContextSeed.SuperSeedRoleAsync(userManager, roleManager);
+
+    } catch (Exception ex) {
+
+        var logger = loggerFactory.CreateLogger<Listing>();
+        logger.LogError(ex, "An error occured when attempting to seed the roles for the system.");
+    }
+
+
+
+
+    app.UseHttpsRedirection();
 
    
+
+    app.UseStaticFiles();
+
+    
+
+    app.UseRouting();
+
+
+   
+
+
     app.UseMiddleware<RequestLogging>();
+
+    
 
     app.UseExceptionHandler(errorApp => {
 
@@ -86,10 +119,11 @@ try {
         });
 
     });
-
+  
 
     app.UseMiddleware<ErrorLogging>();
 
+  
 
     app.UseStatusCodePages(async context => {
 
@@ -105,91 +139,36 @@ try {
         }
     });
 
-    
 
-  
 
 
     app.UseHsts();
 
 
-   
-
-
-
-
-
-
-
     app.UseAuthentication();
-   
+
+    app.UseAuthorization();
 
     app.MapRazorPages();
 
-   
-   
+    
+
 
     app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
-    using (var scope = app.Services.CreateScope()) {
-
-        var roleManager =
-            scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-
-        var roles = new[] { "Admin", "Traveler" };
-
-
-        foreach (var role in roles) {
-
-            if (!await roleManager.RoleExistsAsync(role)) {
-                await roleManager.CreateAsync(new IdentityRole(role));
-            }
-        }
-
-    }
+    
 
 
 
-    using (var scope = app.Services.CreateScope()) {
+    
 
-        var userManager =
-            scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+   
+   
 
-        string email = "admin@admin.com";
-        string password = "@Admin1234";
-        string firstName = "Admin";
-        string lastName = "John";
-
-        if (await userManager.FindByEmailAsync(email) == null) {
-
-            var user = new User();
-            user.UserName = email;
-            user.Email = email;
-            user.EmailConfirmed = true;
-
-            user.FirstName = firstName;
-            user.LastName = lastName;
-            user.HotelLoyaltyID = null;
-            user.FrequentFlyerNumber = null;
-            user.ProfilePicture = null;
-
-            await userManager.CreateAsync(user, password);
-
-            await userManager.AddToRoleAsync(user, "Admin");
-        }
-
-
-
-
-
-    }
-
-
-
-   app.Run();
+    app.Run();
 
 }
 catch (Exception ex) 

@@ -1,3 +1,5 @@
+C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.Features.resources.dll
+C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\runtimes\linux-arm64\native\libe_sqlite3.so
 C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\CoverletSourceRootsMapping_Test_Project
 C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\testhost.dll
 C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\GBC_Travel-Group-32.deps.json
@@ -233,7 +235,6 @@ C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\De
 C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
 C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
 C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\cs\Microsoft.CodeAnalysis.Features.resources.dll
-C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\de\Microsoft.CodeAnalysis.Features.resources.dll
 C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\es\Microsoft.CodeAnalysis.Features.resources.dll
 C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\fr\Microsoft.CodeAnalysis.Features.resources.dll
 C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\it\Microsoft.CodeAnalysis.Features.resources.dll
@@ -345,7 +346,6 @@ C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\De
 C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\runtimes\win\lib\net7.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\runtimes\browser-wasm\nativeassets\net8.0\e_sqlite3.a
 C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\runtimes\linux-arm\native\libe_sqlite3.so
-C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\runtimes\linux-arm64\native\libe_sqlite3.so
 C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\runtimes\linux-armel\native\libe_sqlite3.so
 C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\runtimes\linux-mips64\native\libe_sqlite3.so
 C:\Users\joeba\source\repos\WillingtonSt\GBC_Travel-Group-32\Test_Project\bin\Debug\net8.0\runtimes\linux-musl-arm\native\libe_sqlite3.so

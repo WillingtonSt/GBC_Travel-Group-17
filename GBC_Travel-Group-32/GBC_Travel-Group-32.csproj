@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>GBC_Travel_Group_32</RootNamespace>
+    <UserSecretsId>ca5f138f-25be-4575-8623-7dd6482e7444</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
